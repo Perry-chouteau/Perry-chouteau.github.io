@@ -1,16 +1,17 @@
 import React from 'react';
 import './index.css';
-import {BrowserRouter, Route, Routes} from 'react-router-dom';
+import {BrowserRouter, Route, Routes, Navigate} from 'react-router-dom';
 import NavBar from './components/NavBar';
 import { Home, About, Projects, Voyage} from './pages';
+
 
 const App = () => {
   return (
     <main className=' bg-slate-300/20'>
-      <BrowserRouter>
+        <BrowserRouter>
         <NavBar />
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Navigate to="/about" replace />} />
           <Route path="/about" element={<About />} />
           <Route path="/projects" element={<Projects />} />
           <Route path="/voyage" element={<Voyage />} />

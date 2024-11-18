@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import * as THREE from 'three';
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls, Text3D } from '@react-three/drei';
-import { Text } from '@react-three/drei';
+import { OrbitControls, Stats, Text } from '@react-three/drei';
 import { useRef } from 'react';
 import { Suspense } from 'react'; 
 
@@ -13,6 +12,7 @@ import { adjustSphere, addElementOnSphereByCoordinate, orientSphereToPointAtOrig
 import { Vector2, Coordinate, coordinates } from '../constants';
 import CTA from '../components/CTA';
 import Country from '../components/Country';
+import { poppins } from '../assets/fonts';
 
 const Voyage = () => {
   const [earthPos, earthRot, earthScale] = adjustSphere();
@@ -21,7 +21,7 @@ const Voyage = () => {
   return (
     <section className='max-container-no-padding min-h-screen h-full  p-0 m-0'>
       <div className='px-8 z-0'>
-        <h1 className='head-text'>Around the <span className='font-semibold drop-shadow text-blue-500'>World</span> <span className='bg-orange-500 text-lg'>/!\Building/!\</span></h1>
+        <h1 className='head-text'>Around the <span className='font-semibold drop-shadow text-blue-500'>World</span></h1>
         <div className='mt-5 flex flex-col gap-3 text-slate-500'>
           <p>You can <span className='font-semibold'>follow my trips</span> all arround the world</p>
         </div>

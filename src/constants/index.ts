@@ -44,15 +44,13 @@ import {
 
 import { 
   perry,
-  banner,
   perry_cpp,
   getout,
-  getout_logo,
   portfolio,
   image_compressor
 } from '../assets/images';
-import { Vector2, Coordinate, coordinates } from './voyage';
 
+import { Vector2, Coordinate, coordinates } from './voyage';
 
 export interface Skill {
   imageUrl: string;

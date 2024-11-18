@@ -1,6 +1,6 @@
 import React from 'react';
 import './index.css';
-import {HashRouter, Route, Routes, Navigate} from 'react-router-dom';
+import {BrowserRouter, Route, Routes, Navigate} from 'react-router-dom';
 import NavBar from './components/NavBar';
 import { Home, About, Projects, Voyage} from './pages';
 
@@ -8,15 +8,16 @@ import { Home, About, Projects, Voyage} from './pages';
 const App = () => {
   return (
     <main className=' bg-slate-300/20'>
-        <HashRouter>
+        <BrowserRouter>
         <NavBar />
         <Routes>
           <Route path="/" element={<About />} />
+          <Route path="/about" element={<About />} />
           <Route path="/projects" element={<Projects />} />
           <Route path="/voyage" element={<Voyage />} />
           <Route path="*" element={<h1>Not Found</h1>} />
         </Routes>
-      </HashRouter>
+      </BrowserRouter>
     </main>
   );
 }

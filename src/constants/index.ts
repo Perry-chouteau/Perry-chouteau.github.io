@@ -399,8 +399,8 @@ export const projects = [
   },
   {
     'title': 'Image Compressor',
-    'description': 'This is a project',
-    'tags': [tags.ecs, tags.cross, tags.sharedLib],
+    'description': 'Compress image with specific format',
+    'tags': [tags.algorithm],
     'image': image_compressor,
     'url': 'https://github.com/Perry-Chouteau',
     'color': '#8000ff',
@@ -416,7 +416,7 @@ export const projects = [
   {
     'title': 'Portfolio',
     'description': 'Your\'re already looking at it',
-    'tags': [tags.mobile, tags.algorithm, tags.ui, tags.ux],
+    'tags': [tags.mobile, tags.ui, tags.ux],
     'image': portfolio,
     'url': 'github.com/Perry-Chouteau/Portfolio',
     'color': '#0e86f0',

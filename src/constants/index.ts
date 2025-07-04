@@ -50,7 +50,8 @@ import {
   image_compressor
 } from '../assets/images';
 
-import { Vector2, Coordinate, coordinates } from './voyage';
+import type { Vector2, Coordinate } from './voyage';
+import { coordinates } from './voyage';
 
 export interface Skill {
   imageUrl: string;

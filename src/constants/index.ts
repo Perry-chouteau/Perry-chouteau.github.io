@@ -279,9 +279,8 @@ export const experiences = [
     'date': 'September 2021 - December 2021 · 1 year',
     'description': 'Worked on the Google Search Engine',
     'points': [
-      "Developing new features for the Google Search Engine",
-      "Optimizing the search engine for better performance",
-      "Working on the Google Search Engine"
+      "Learning computer science (opengl, physics).",
+      "Want to add a physical engine (associated with the ECS engine https://github.com/P-E-R-R-Y/ecs."
     ]
   },
 ];

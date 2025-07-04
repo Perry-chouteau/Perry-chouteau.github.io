@@ -76,7 +76,7 @@ export const skills = [
     imageUrl: linkedin,
     name: 'Linkedin',
     type: 'Webapp',
-    url: 'https://gitlab.com/'
+    url: 'https://linkedin.com/'
   },
   {
     imageUrl: git,
@@ -86,9 +86,9 @@ export const skills = [
   },
   {
     imageUrl: docker,
-    name: 'Slack',
+    name: 'Docker',
     type: 'Container',
-    url: 'https://git-scm.com/'
+    url: 'http://docker.com/'
   },
   /* Languages */
   {
@@ -180,13 +180,13 @@ export const skills = [
     imageUrl: slack,
     name: 'Slack',
     type: 'Software',
-    url: 'https://git-scm.com/'
+    url: 'http://slack.com/'
   },
   {
     imageUrl: figma,
     name: 'Figma',
     type: 'Software',
-    url: 'https://git-scm.com/'
+    url: 'https://figma.com/'
   },
   {
     imageUrl: autocad,

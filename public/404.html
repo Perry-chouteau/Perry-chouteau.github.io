@@ -1,0 +1,8 @@
+<script>
+  var redirect = location.pathname;
+  if (redirect && redirect !== "/") {
+    location.replace("/?redirect=" + redirect);
+  } else {
+    location.replace("/");
+  }
+</script>

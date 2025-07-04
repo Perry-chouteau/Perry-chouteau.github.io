@@ -34,7 +34,9 @@ jobs:
         run: npm ci
 
       - name: Build React App
-        run: CI='' npm run build
+        run: npm run build
+        env:
+            CI: false
 
       - name: Upload build artifacts
         uses: actions/upload-pages-artifact@v3

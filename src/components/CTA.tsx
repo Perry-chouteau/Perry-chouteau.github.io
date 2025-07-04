@@ -8,7 +8,7 @@ const CTA = () => {
         <br className='sm:block hidden'/>
           Let's talk !
       </p>
-      <Link to='/contact' className='btn'>Contact</Link>
+      <Link to='https://www.linkedin.com/in/perry-chouteau-56292a206/' className='btn'>Contact</Link>
     </section>
   );
 };

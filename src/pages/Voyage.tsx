@@ -27,8 +27,8 @@ const Voyage = () => {
         </div>
       </div>
       {/* ThreeJs */}
-      <div className='w-full h-screen m-0 p-0'>
-      <Canvas camera={{ position: [0, 0, 3]}}>
+      <div className='w-full h-[60vh] sm:h-screen m-0 p-0'>
+      <Canvas camera={{ position: [0, 0.5, 2]}}>
         <Suspense fallback={null}>
           <directionalLight position={[1,10,5]} intensity={2.5} />
           <ambientLight intensity={0.5}/>

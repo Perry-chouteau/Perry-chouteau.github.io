@@ -41,6 +41,15 @@ export const coordinates = [
     ]
   },
   {
+    title: 'Milan - Italy',
+    description: 'Home country',
+    x: -84, y: 116,
+    color: white,
+    points: [
+      { x: -0.5, y: 0.5 },
+    ]
+  },
+  {
     title: 'Porto - Portugal',
     description: 'Sightseeing',
     x: -100,

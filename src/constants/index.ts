@@ -5,6 +5,7 @@ import {
   paykrom,
   xo7,
   keimyung,
+  ds,
 
   /* Application */
   github,
@@ -14,6 +15,11 @@ import {
   figma,
   slack,
   docker,
+
+  qemu,
+  k8s,
+  cilium,
+  knative,
 
   /* version Control */
   git,
@@ -203,6 +209,34 @@ export const skills = [
   }
 ];
 
+export const newSkills = [
+  {
+    imageUrl: qemu,
+    name: 'Qemu',
+    type: 'Emulator',
+    url: 'https://qemu.org/'
+  },
+  {
+    imageUrl: k8s,
+    name: 'Kubernetes',
+    type: 'DevOps',
+    url: 'https://kubernetes.io/'
+  },
+  {
+    imageUrl: cilium,
+    name: 'Cilium',
+    type: 'Cloud',
+    url: 'https://cilium.io/'
+  },
+  {
+    imageUrl: knative,
+    name: 'Knative',
+    type: 'Cloud',
+    url: 'https://knative.dev/'
+  }
+]
+
+
 export interface Experience {
   title: string;
   company_name: string;
@@ -215,7 +249,77 @@ export interface Experience {
 }
 
 export const experiences = [
-  {
+    {
+      'title': 'Software Engineer Expert',
+      'company_name': 'Dassault Système',
+      'location': 'Paris, France',
+      'icon' : ds,
+      'iconBG': '#215282',
+      'date': 'March 2025 - August 2025',
+      'description': 'Edit the import workflow on cannonical periodic surfaces.',
+      'points': [
+        "Geometrical import",
+        "Software Engineering",
+        "Improve reliability models",
+      ]
+    },
+
+    {
+      'title': 'Computer Science',
+      'company_name': 'Keimyung',
+      'location': 'Daegu, Korea',
+      'icon' : keimyung,
+      'iconBG': '#1v4d9c',
+      'date': 'September 2023 - July 2024 · 1 year',
+      'description': 'Worked on the Google Search Engine',
+      'points': [
+        "Learning computer science (opengl, physics).",
+        "Want to add a physical engine (associated with the ECS engine https://github.com/P-E-R-R-Y/ecs."
+      ]
+    },
+    {
+      'title': 'Backend, DevOps Developer',
+      'company_name': 'Xo7',
+      'location': 'Paris, France',
+      'icon' : xo7,
+      'iconBG': '#000000',
+      'date': 'January 2023 - June 2023 · 6 months',
+      'description': 'Improve accessibility to deploy a complex CMS architecture',
+      'points': [
+        "AWS EC2, S3, Lambda, Gateway, SSM, CloudWatch, SSM",
+        "Gitlab CI/CD API",
+        "Slack API & Block",
+      ]
+    },
+    {
+      'title': 'Freelance Developer',
+      'company_name': 'Freelance',
+      'location': 'Paris, France',
+      'icon' : paykrom,
+      'iconBG': '#ea6e2d',
+      'date': 'January 2022 - April 2022 · 4 months',
+      'description': 'Build a mobile app using Java',
+      'points': [
+        "Continuing the project with Paykrom",
+        "Implementing more features",
+      ]
+    },
+    {
+      'title': 'Internship Mobile Developer',
+      'company_name': 'Paykrom',
+      'location': 'Paris, France',
+      'icon' : paykrom,
+      'iconBG': '#ea6e2d',
+      'date': 'September 2021 - December 2021',
+      'description': 'Paykrom is a payment service provider agent.',
+      'points': [
+        "Learn Android development",
+        "Build a mobile application from scratch",
+        "Leading the new UI collaborating with the designer",
+        "Working with AWS Cognito",
+      ]
+    },
+    {
     'title': 'Software Engineer Expert',
     'company_name': 'Epitech',
     'location': 'Paris, France',
@@ -227,61 +331,6 @@ export const experiences = [
       "System Information Architecture",
       "Software Engineering",
       "Network, Security & DevOps",
-    ]
-  },
-  {
-    'title': 'Internship Mobile Developer',
-    'company_name': 'Paykrom',
-    'location': 'Paris, France',
-    'icon' : paykrom,
-    'iconBG': '#ea6e2d',
-    'date': 'September 2021 - December 2021',
-    'description': 'Paykrom is payment service provider agent.',
-    'points': [
-      "Learn Android development",
-      "Start Building a mobile application from scratch",
-      "Leading the new UI collaborating with the designer, aiming to bring it to the web",
-      "Working with AWS Cognito",
-    ]
-  },
-  {
-    'title': 'Freelance Developer',
-    'company_name': 'Freelance',
-    'location': 'Paris, France',
-    'icon' : paykrom,
-    'iconBG': '#ea6e2d',
-    'date': 'Janvier 2022 - March 2020 · 6 months',
-    'description': 'Worked on the Google Search Engine',
-    'points': [
-      "Continuing the project with Paykrom,",
-      "Implementing more features",
-    ]
-  },
-  {
-    'title': 'Backend, DevOps Developer',
-    'company_name': 'Xo7',
-    'location': 'Paris, France',
-    'icon' : xo7,
-    'iconBG': '#000000',
-    'date': 'Janvier 2023 - Mai 2021 · 6 months',
-    'description': 'Improve accessibility to deploy a complex CMS architecture',
-    'points': [
-      "AWS EC2, S3, Lambda, Gateway, SSM, CloudWatch, SSM",
-      "Gitlab CI/CD API",
-      "Slack API & Block",
-    ]
-  },
-  {
-    'title': 'Computer Science',
-    'company_name': 'Keimyung',
-    'location': 'Daegu, Korea',
-    'icon' : keimyung,
-    'iconBG': '#1v4d9c',
-    'date': 'September 2021 - December 2021 · 1 year',
-    'description': 'Worked on the Google Search Engine',
-    'points': [
-      "Learning computer science (opengl, physics).",
-      "Want to add a physical engine (associated with the ECS engine https://github.com/P-E-R-R-Y/ecs."
     ]
   },
 ];
@@ -305,7 +354,7 @@ export const tags = {
   },
   'cross':{
     name: 'crossplateforme',
-    fullName: 'null',
+    fullName: null,
     url: 'https://en.wikipedia.org/wiki/Cross-platform'
   },
   'staticLib':{
@@ -425,4 +474,3 @@ export const projects = [
 ];
 
 export { type Vector2, type Coordinate, coordinates};
-

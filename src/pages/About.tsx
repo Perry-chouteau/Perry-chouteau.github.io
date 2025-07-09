@@ -3,6 +3,9 @@ import {
   Skill, skills, newSkills,
   Experience, experiences,
 } from '../constants';
+
+import SkillLayout from '../components/SkillLayout';
+
 import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component';
 import 'react-vertical-timeline-component/style.min.css';
 import exp from 'constants';
@@ -16,58 +19,13 @@ const About = () => {
       <div className='mt-5 flex flex-col gap-3 text-slate-500'>
         <p><span className='font-semibold'>Software engineer expert</span>, from France. I'm actively pushing my skills forward.</p>
       </div>
+
       {/* My Skills */}
-      <div className='#skills py-10 flex flex-col'>
-        <h3 className='subhead-text'>My Skills</h3>
-
-        <div className='mt-16 flex flex-wrap gap-8 justify-center items-center'>
-          {skills.map((skill: Skill) => (
-            <div className='justify-center items-center'>
-              {/*icon*/}
-              <div className='block-container red w-20 h-20 mb-3'>
-                <div className='btn-back rounded-xl' />
-                <div className='btn-front rounded-xl flex justify-center items-center'>
-                  <img
-                    src={skill.imageUrl}
-                    alt={skill.name}
-                    className='w-[75%] h-[75%] object-contain'
-                  />
-                </div>
-              </div>
-              {/*name*/}
-              <p className='text-center text-black-500 text-xs font-light font-poppins self-center'>{skill.name}</p>
-              <p className='text-center text-black-500 text-xs font-extralight font-poppins self-center'>{skill.type}</p>
-            </div>
-          ))/*.sort((a, b) => 0.5 - Math.random())*/}
-        </div>
-      </div>
-
+      < SkillLayout name="Technical Skills" skills={skills} />
       {/* In progress */}
-      <div className='#skills py-10 flex flex-col'>
-        <h3 className='subhead-text'>Learning...</h3>
+      < SkillLayout name="Learning..." skills={newSkills} />
 
-        <div className='mt-16 flex flex-wrap gap-8 justify-center items-center'>
-          {newSkills.map((skill: Skill) => (
-            <div className='justify-center items-center'>
-              {/*icon*/}
-              <div className='block-container red w-20 h-20 mb-3'>
-                <div className='btn-back rounded-xl' />
-                <div className='btn-front rounded-xl flex justify-center items-center'>
-                  <img
-                    src={skill.imageUrl}
-                    alt={skill.name}
-                    className='w-[75%] h-[75%] object-contain'
-                  />
-                </div>
-              </div>
-              {/*name*/}
-              <p className='text-center text-black-500 text-xs font-light font-poppins self-center'>{skill.name}</p>
-              <p className='text-center text-black-500 text-xs font-extralight font-poppins self-center'>{skill.type}</p>
-            </div>
-          ))/*.sort((a, b) => 0.5 - Math.random())*/}
-        </div>
-      </div>
-
+    
       {/* My Experience */}
       <div className='#experiences py-10 flex flex-col'>
         <h3 className='subhead-text'>Work Experiences</h3>

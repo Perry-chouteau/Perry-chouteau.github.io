@@ -70,20 +70,14 @@ export const skills = [
   {
     imageUrl: github,
     name: 'Github',
-    type: 'Software',
+    type: 'Version Control',
     url: 'https://github.com'
   },
   {
     imageUrl: gitlab,
     name: 'Gitlab',
-    type: 'Webapp',
+    type: 'Version Control',
     url: 'https://gitlab.com/'
-  },
-  {
-    imageUrl: linkedin,
-    name: 'Linkedin',
-    type: 'Webapp',
-    url: 'https://linkedin.com/'
   },
   {
     imageUrl: git,
@@ -101,13 +95,13 @@ export const skills = [
   {
     imageUrl: cpp,
     name: 'C++',
-    type: 'FullStack',
+    type: 'Software',
     url: 'https://isocpp.org/'
   },
   {
     imageUrl: golang,
     name: 'Golang',
-    type: 'Frontend',
+    type: 'Backend',
     url: 'https://golang.org/'
   },
   {
@@ -117,33 +111,34 @@ export const skills = [
     url: 'https://flutter.dev/'
   },
   {
-    imageUrl: haskell,
-    name: 'Haskell',
-    type: 'Web',
-    url: 'https://www.haskell.org/'
-  },
-  {
     imageUrl: typescript,
     name: 'Typescript',
     type: 'Web',
     url: 'https://www.typescriptlang.org/'
   },
+
+  {
+    imageUrl: haskell,
+    name: 'Haskell',
+    type: 'Software',
+    url: 'https://www.haskell.org/'
+  },
   {
     imageUrl: arduino,
     name: 'Arduino',
-    type: 'Embedded',
+    type: 'Electronics',
     url: 'https://www.arduino.cc/'
   },
   {
     imageUrl: java,
     name: 'Java',
-    type: 'Backend',
+    type: 'Mobile',
     url: 'https://www.java.com/'
   },
   {
     imageUrl: python,
     name: 'Python',
-    type: 'Backend',
+    type: 'Language',
     url: 'https://www.python.org/'
   },
   /* Library & framework */
@@ -165,17 +160,17 @@ export const skills = [
     type: 'Framework',
     url: 'https://reactjs.org/'
   },
+    {
+    imageUrl: mysql,
+    name: 'Mysql',
+    type: 'Database',
+    url: 'https://www.mysql.com/'
+  },
   {
     imageUrl: tailwindcss,
     name: 'tailwindcss',
     type: 'framework',
     url: 'https://tailwindcss.com/'
-  },
-  {
-    imageUrl: mysql,
-    name: 'Mysql',
-    type: 'Database',
-    url: 'https://www.mysql.com/'
   },
   {
     imageUrl: mongodb,

@@ -10,9 +10,9 @@ const Projects = () => {
       <div className='mt-5 flex flex-col gap-3 text-slate-500'>
         <p>Watch out some of my <span className='font-semibold'>Work</span></p>
       </div>
-      <div className='my-2 flex flex-wrap justify-center gap-2'>
+      <div className='my-2 pb-4 flex flex-wrap justify-center gap-2'>
         {projects.map((project: Project) => (
-          <div className='relative md:w-[400px] w-full bg-white drop-shadow-md shadow-md mt-8 px-3 py-2 rounded-lg border-b-8' style={{borderBlockColor: hexRgbLightner(project.color, 0.2)}}>
+          <div className='relative md:w-[400px] w-full bg-white drop-shadow-md shadow-md mt-4 px-3 py-2 rounded-lg border-b-8' style={{borderBlockColor: hexRgbLightner(project.color, 0.2)}}>
               <h3 className='text-black text-2xl font-bold font-poppins'>{project.title}</h3>
               <p className='text-slate-500 w-[80%]'>{project.description}</p>
               <div className='flex flex-wrap pb-2'>

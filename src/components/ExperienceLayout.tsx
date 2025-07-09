@@ -1,37 +1,17 @@
-import React from 'react';
-import {
-  Skill, skills, newSkills,
-  Experience, experiences,
-} from '../constants';
-
-import SkillLayout from '../components/SkillLayout';
+import { Experience } from '../constants';
 
 import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component';
 import 'react-vertical-timeline-component/style.min.css';
 import exp from 'constants';
 import hexRgbLightner from '../utils/lightener';
-import CTA from '../components/CTA';
 
-const About = () => {
-  return (
-    <section className='max-container min-h-screen h-full'>
-      <h1 className='head-text'>Hey, I'm <span className='font-semibold drop-shadow text-blue-500'>Perry <span className='uppercase'> Chouteau</span></span></h1>
-      <div className='mt-5 flex flex-col gap-3 text-slate-500'>
-        <p><span className='font-semibold'>Software engineer expert</span>, from France. I'm actively pushing my skills forward.</p>
-      </div>
-
-      {/* My Skills */}
-      < SkillLayout name="Technical Skills" skills={skills} />
-      {/* In progress */}
-      < SkillLayout name="Learning..." skills={newSkills} />
-
-    
-      {/* My Experience */}
-      <div className='#experiences py-10 flex flex-col'>
+const ExperienceLayout = ({experiences}:{experiences: Experience[]}) => {
+    return (
+        <div className='#experiences py-10 flex flex-col'>
         <h3 className='subhead-text'>Work Experiences</h3>
 
         <div className='mt-5 flex flex-col gap-3 text-slate-500'>
-          <p>I already earn some <span className='font-semibold'>experiences</span>, working in <span className='font-semibold'>companies</span> and <span className='font-semibold'>universities</span>.</p>
+          <p>I already earn some <span className='font-semibold'>experiences</span>, working at <span className='font-semibold'>companies</span> and <span className='font-semibold'>universities</span>.</p>
         </div>
 
         <div className='mt-12 flex'>
@@ -78,11 +58,7 @@ const About = () => {
           </VerticalTimeline>
         </div>
       </div>
+    )
+}
 
-      <hr className='border-slate-200'></hr>
-      <CTA />
-    </section>
-  );
-};
-
-export default About;
+export default ExperienceLayout;

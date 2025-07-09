@@ -3,7 +3,7 @@ import epitech from './epitech.svg'
 import paykrom from './paykrom.svg'
 import xo7 from './xo7.svg'
 import keimyung from './keimyung.svg'
-import ds from './3ds.svg'
+import ds from './3ds.png'
 
 /* Application */
 import github from './github.svg'
@@ -12,8 +12,6 @@ import docker from './docker.svg'
 import figma from './figma.svg'
 import lightroom from './lightroom.svg'
 import autocad from './autocad.svg'
-//import jetbrain from './jetbrain.svg'
-//import vscode from './vscode.svg'
 import linkedin from './linkedin.svg'
 import slack from './slack.svg'
 
@@ -21,6 +19,7 @@ import qemu from './qemu.png'
 import k8s from './kubernetes.svg'
 import cilium from './cilium.webp'
 import knative from './knative.png'
+import aws from './aws.svg'
 
 /* version Control */
 import git from './git.svg'
@@ -79,14 +78,13 @@ export {
     k8s,
     cilium,
     knative,
-
-//    jetbrain,
-//    vscode,
+    aws,
 
     /* version Control */
     git,
 
     /* Languages */
+    c,
     cpp,
     haskell,
     golang,

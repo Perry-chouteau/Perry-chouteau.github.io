@@ -23,8 +23,10 @@ import {
 
   /* version Control */
   git,
+  aws,
 
   /* Languages */
+  c,
   cpp,
   golang,
   haskell,
@@ -66,32 +68,13 @@ export interface Skill {
 }
 
 export const skills = [
-  /* Application*/
+    /* Languages */
   {
-    imageUrl: github,
-    name: 'Github',
-    type: 'Version Control',
-    url: 'https://github.com'
+    imageUrl: c,
+    name: 'C',
+    type: 'Software',
+    url: 'https://www.gnu.org/software/gnu-c-manual/gnu-c-manual.html'
   },
-  {
-    imageUrl: gitlab,
-    name: 'Gitlab',
-    type: 'Version Control',
-    url: 'https://gitlab.com/'
-  },
-  {
-    imageUrl: git,
-    name: 'Git',
-    type: 'Version control',
-    url: 'https://git-scm.com/'
-  },
-  {
-    imageUrl: docker,
-    name: 'Docker',
-    type: 'Container',
-    url: 'http://docker.com/'
-  },
-  /* Languages */
   {
     imageUrl: cpp,
     name: 'C++',
@@ -116,7 +99,6 @@ export const skills = [
     type: 'Web',
     url: 'https://www.typescriptlang.org/'
   },
-
   {
     imageUrl: haskell,
     name: 'Haskell',
@@ -124,10 +106,10 @@ export const skills = [
     url: 'https://www.haskell.org/'
   },
   {
-    imageUrl: arduino,
-    name: 'Arduino',
-    type: 'Electronics',
-    url: 'https://www.arduino.cc/'
+    imageUrl: python,
+    name: 'Python',
+    type: 'Software',
+    url: 'https://www.python.org/'
   },
   {
     imageUrl: java,
@@ -135,42 +117,19 @@ export const skills = [
     type: 'Mobile',
     url: 'https://www.java.com/'
   },
+  /* Application*/
   {
-    imageUrl: python,
-    name: 'Python',
-    type: 'Language',
-    url: 'https://www.python.org/'
+    imageUrl: git,
+    name: 'Git',
+    type: 'Versioning',
+    url: 'https://git-scm.com/'
   },
   /* Library & framework */
   {
-    imageUrl: grpc,
-    name: 'Grpc',
-    type: 'Framework',
-    url: 'https://grpc.io/'
-  },
-  {
-    imageUrl: express,
-    name: 'Express',
-    type: 'Framework',
-    url: 'https://expressjs.com/'
-  },
-  {
-    imageUrl: react,
-    name: 'React',
-    type: 'Framework',
-    url: 'https://reactjs.org/'
-  },
-    {
     imageUrl: mysql,
     name: 'Mysql',
     type: 'Database',
     url: 'https://www.mysql.com/'
-  },
-  {
-    imageUrl: tailwindcss,
-    name: 'tailwindcss',
-    type: 'framework',
-    url: 'https://tailwindcss.com/'
   },
   {
     imageUrl: mongodb,
@@ -178,59 +137,44 @@ export const skills = [
     type: 'Database',
     url: 'https://www.mongodb.com/'
   },
-  {
-    imageUrl: slack,
-    name: 'Slack',
-    type: 'Software',
-    url: 'http://slack.com/'
-  },
-  {
-    imageUrl: figma,
-    name: 'Figma',
-    type: 'Software',
-    url: 'https://figma.com/'
-  },
-  {
-    imageUrl: autocad,
-    name: 'Autocad',
-    type: 'Software',
-    url: 'https://www.autodesk.com/products/autocad/overview'
-  },
-  {
-    imageUrl: lightroom,
-    name: 'Lightroom',
-    type: 'Software',
-    url: 'https://www.adobe.com/products/photoshop-lightroom.html'
-  }
-];
-
-export const newSkills = [
-  {
+    {
     imageUrl: qemu,
     name: 'Qemu',
     type: 'Emulator',
     url: 'https://qemu.org/'
   },
   {
+    imageUrl: docker,
+    name: 'Docker',
+    type: 'Container',
+    url: 'http://docker.com/'
+  },
+  {
+    imageUrl: aws,
+    name: 'AWS',
+    type: 'Cloud',
+    url: 'https://aws.amazon.com/'
+  },
+  {
     imageUrl: k8s,
     name: 'Kubernetes',
-    type: 'DevOps',
+    type: '25%...',
     url: 'https://kubernetes.io/'
   },
   {
     imageUrl: cilium,
     name: 'Cilium',
-    type: 'Cloud',
+    type: '1%',
     url: 'https://cilium.io/'
   },
   {
     imageUrl: knative,
     name: 'Knative',
-    type: 'Cloud',
+    type: '0%',
     url: 'https://knative.dev/'
   }
-]
 
+];
 
 export interface Experience {
   title: string;

@@ -1,0 +1,172 @@
+---
+import { Image } from 'astro:assets';
+import { ArrowLeft, ImageOff, ArrowUpRight } from 'lucide-react';
+import Base from '../../../../layouts/Base.astro';
+import { lifeCategories } from '../../../../content/life';
+import { imagesIn, imagesUnder } from '../../../../lib/media';
+import Gallery from '../../../../components/Gallery.astro';
+import { LANGS, t } from '../../../../i18n/config';
+import { ui } from '../../../../i18n/ui';
+
+/** Une page par categorie ET par langue. */
+export function getStaticPaths() {
+  return LANGS.flatMap((lang) =>
+    lifeCategories.map((cat) => ({
+      params: { lang, category: cat.id },
+      props: { lang, cat },
+    })),
+  );
+}
+
+const { lang, cat } = Astro.props;
+
+/* Les photos sont resolues depuis le DOSSIER de chaque item. */
+const cards = cat.items.map((item) => ({ item, images: imagesIn(item.dir) }));
+
+/*
+ * La galerie de la categorie, en plus des activites.
+ *
+ * - Sans activites : on prend TOUT ce qui est sous le dossier (recursif),
+ *   pour que des sous-dossiers non declares soient quand meme montres.
+ * - Avec activites : seulement les photos posees a la RACINE, celles qui
+ *   n'appartiennent a aucun poste. Sans ca elles restaient invisibles.
+ * - Sauf si ce dossier sert deja de couverture : on ne la reaffiche pas.
+ */
+const galleryDir = cat.dir ?? cat.id;
+const gallery =
+  cat.coverDir === galleryDir
+    ? []
+    : cat.items.length === 0
+      ? imagesUnder(galleryDir)
+      : imagesIn(galleryDir);
+
+/*
+ * Regroupement par region quand les items en declarent une (Séoul, Busan,
+ * Daegu...). Sinon une seule grille, sans titre parasite.
+ */
+const regions = [...new Set(cards.map((c) => c.item.region).filter(Boolean))] as string[];
+const groups = regions.length
+  ? [
+      ...regions.map((r) => ({ region: r, cards: cards.filter((c) => c.item.region === r) })),
+      { region: null, cards: cards.filter((c) => !c.item.region) },
+    ].filter((g) => g.cards.length > 0)
+  : [{ region: null, cards }];
+---
+
+<Base
+  lang={lang}
+  title={`${t(cat.title, lang)} — ${t(ui.life, lang)} | Perry Chouteau`}
+  description={t(cat.tagline, lang)}
+>
+  <div class="py-12 sm:py-16">
+    <a
+      href={`/${lang}/life`}
+      class="mb-8 inline-flex items-center gap-1.5 text-sm text-ink-faint transition-colors hover:text-ink"
+    >
+      <ArrowLeft className="size-4" />
+      {t(ui.life, lang)}
+    </a>
+
+    <header class="border-b border-line-soft pb-10">
+      <h1 class="text-4xl font-bold tracking-tight sm:text-5xl">{t(cat.title, lang)}</h1>
+      <p class="mt-4 max-w-2xl text-lg leading-relaxed text-ink-dim">{t(cat.lead, lang)}</p>
+    </header>
+
+    {
+      cards.length > 0 &&
+        groups.map((group) => (
+          <section class="mt-10">
+            {group.region && (
+              <h2 class="mb-5 text-sm font-semibold uppercase tracking-widest text-ink-faint">
+                {group.region}
+              </h2>
+            )}
+
+            <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {group.cards.map(({ item, images }) => (
+                <a
+                  href={`/${lang}/life/${cat.id}/${item.id}`}
+                  class="group flex flex-col overflow-hidden rounded-card border border-line-soft bg-surface transition-colors hover:border-[var(--accent-line)]"
+                >
+                  <div class="relative aspect-[4/3] overflow-hidden bg-bg">
+                    {images[0] ? (
+                      <Image
+                        src={images[0]}
+                        alt={item.title}
+                        widths={[400, 800]}
+                        sizes="(min-width: 1024px) 340px, (min-width: 640px) 50vw, 100vw"
+                        format="webp"
+                        quality={78}
+                        loading="lazy"
+                        class="size-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+                      />
+                    ) : (
+                      <div class="grid size-full place-items-center text-ink-faint/40">
+                        <ImageOff className="size-7" />
+                      </div>
+                    )}
+
+                    {item.stat && (
+                      <span class="absolute left-3 top-3 rounded-full bg-bg/80 px-2.5 py-1 font-mono text-[0.6875rem] font-medium text-ink backdrop-blur-sm">
+                        {item.stat}
+                      </span>
+                    )}
+                    {images.length > 1 && (
+                      <span class="absolute bottom-3 right-3 rounded-full bg-bg/80 px-2 py-0.5 font-mono text-[0.6875rem] text-ink-dim backdrop-blur-sm">
+                        +{images.length - 1}
+                      </span>
+                    )}
+                  </div>
+
+                  <div class="flex flex-1 flex-col gap-3 p-4">
+                    <div class="flex items-baseline justify-between gap-2">
+                      <h3 class="font-semibold leading-tight text-ink transition-colors group-hover:text-[var(--accent)]">
+                        {item.title}
+                      </h3>
+                      {item.year && (
+                        <span class="shrink-0 font-mono text-xs text-ink-faint">{item.year}</span>
+                      )}
+                    </div>
+
+                    {item.note && (
+                      <p class="line-clamp-3 text-[0.8125rem] leading-relaxed text-ink-dim">
+                        {t(item.note, lang)}
+                      </p>
+                    )}
+
+                    <span class="mt-auto inline-flex items-center gap-1 pt-1 text-[0.8125rem] font-medium text-[var(--accent)]">
+                      {t(ui.seeMore, lang)}
+                      <ArrowUpRight className="size-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    </span>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </section>
+        ))
+    }
+
+    {/* Les photos qui n'appartiennent a aucun poste. */}
+    {
+      gallery.length > 0 && (
+        <section class="mt-12">
+          {cards.length > 0 && (
+            <h2 class="mb-5 text-sm font-semibold uppercase tracking-widest text-ink-faint">
+              {t(ui.otherPhotos, lang)}
+            </h2>
+          )}
+          <Gallery images={gallery} alt={t(cat.title, lang)} />
+        </section>
+      )
+    }
+
+    {
+      cards.length === 0 && gallery.length === 0 && (
+        <p class="mt-10 rounded-card border border-dashed border-line py-16 text-center text-sm text-ink-faint">
+          {t(ui.noneYet, lang)}
+        </p>
+      )
+    }
+
+  </div>
+</Base>

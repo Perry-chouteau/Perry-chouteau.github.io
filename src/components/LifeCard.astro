@@ -1,0 +1,72 @@
+---
+import { ArrowUpRight, ImageOff } from 'lucide-react';
+import Carousel from './Carousel';
+import type { LifeCategory } from '../content/life';
+import { t, type Lang } from '../i18n/config';
+
+/**
+ * La carte d'une categorie de /life. Extraite parce qu'elle est rendue a la
+ * fois dans la grille fixe et, en plusieurs exemplaires, dans le carrousel.
+ *
+ * `floating` : la carte est positionnee par le carrousel (absolue, animee).
+ * `clone`    : exemplaire duplique — invisible pour les lecteurs d'ecran et
+ *              hors du parcours clavier, sinon chaque lien serait annonce
+ *              trois fois.
+ */
+type Props = {
+  cat: LifeCategory;
+  urls: string[];
+  lang: Lang;
+  idx: number;
+  floating?: boolean;
+  clone?: boolean;
+};
+
+const { cat, urls, lang, idx, floating = false, clone = false } = Astro.props;
+
+const shell = floating
+  ? 'absolute left-1/2 top-1/2 w-[18rem] -translate-y-1/2 shadow-2xl transition-[transform,opacity,filter] duration-500 ease-out sm:w-[22rem]'
+  : '';
+---
+
+<a
+  data-rail-item={floating ? '' : undefined}
+  href={`/${lang}/life/${cat.id}`}
+  aria-hidden={clone ? 'true' : undefined}
+  tabindex={clone ? -1 : undefined}
+  class:list={[
+    'group flex flex-col overflow-hidden rounded-2xl border border-line-soft bg-surface hover:border-[var(--accent-line)]',
+    shell,
+  ]}
+>
+  <div class="relative aspect-[16/10] overflow-hidden bg-bg">
+    {
+      urls.length > 0 ? (
+        <Carousel client:load images={urls} alt={t(cat.title, lang)} offset={idx * 900} />
+      ) : (
+        <div class="grid size-full place-items-center text-ink-faint/40">
+          <ImageOff className="size-8" />
+        </div>
+      )
+    }
+    {
+      cat.items.length > 0 && (
+        <span class="absolute right-3 top-3 rounded-full bg-bg/80 px-2.5 py-1 font-mono text-[0.6875rem] text-ink-dim backdrop-blur-sm">
+          {cat.items.length}
+        </span>
+      )
+    }
+  </div>
+
+  <div class="flex flex-1 flex-col gap-2 p-5">
+    <div class="flex items-center justify-between gap-3">
+      <h3
+        class="text-lg font-bold tracking-tight text-ink transition-colors group-hover:text-[var(--accent)]"
+      >
+        {t(cat.title, lang)}
+      </h3>
+      <ArrowUpRight className="size-4 shrink-0 text-ink-faint transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-[var(--accent)]" />
+    </div>
+    <p class="text-[0.8125rem] leading-relaxed text-ink-dim">{t(cat.tagline, lang)}</p>
+  </div>
+</a>

@@ -1,0 +1,104 @@
+---
+import { getImage } from 'astro:assets';
+import Base from '../../../layouts/Base.astro';
+import Coverflow from '../../../components/Coverflow';
+import LifeCard from '../../../components/LifeCard.astro';
+import { lifeCategories, domainLabel, domainLead, domainOrder, staticDomains } from '../../../content/life';
+import { imagesIn, imagesUnder } from '../../../lib/media';
+import { LANGS, t } from '../../../i18n/config';
+import { ui } from '../../../i18n/ui';
+
+export function getStaticPaths() {
+  return LANGS.map((lang) => ({ params: { lang }, props: { lang } }));
+}
+
+const { lang } = Astro.props;
+
+/*
+ * Le carrousel est une island React : elle ne peut pas recevoir d'ImageMetadata,
+ * seulement des URLs. getImage() fait l'optimisation ICI, au build.
+ */
+const cards = await Promise.all(
+  lifeCategories.map(async (cat, idx) => {
+    const source = cat.coverDir
+      ? imagesIn(cat.coverDir)
+      : cat.dir
+        ? imagesUnder(cat.dir, 5)
+        : imagesUnder(cat.id, 5);
+    const urls = await Promise.all(
+      source.slice(0, 5).map(async (img) => {
+        const out = await getImage({ src: img, width: 800, height: 600, format: 'webp', quality: 78 });
+        return out.src;
+      }),
+    );
+    return { cat, urls, idx };
+  }),
+);
+
+const groups = domainOrder
+  .map((domain) => ({ domain, cards: cards.filter((c) => c.cat.domain === domain) }))
+  .filter((g) => g.cards.length > 0);
+
+/*
+ * Le carrousel ne teleporte rien : il joue sur des cartes DUPLIQUEES. Trois
+ * exemplaires suffisent — on tourne autour de celui du milieu, il y a donc
+ * toujours de la matiere des deux cotes, et le recalage se fait sur un
+ * exemplaire identique, donc invisible.
+ */
+const COPIES = 3;
+---
+
+<Base
+  lang={lang}
+  title={`${t(ui.life, lang)} — Perry Chouteau`}
+  description={t(ui.lifeLead, lang)}
+>
+  <section class="py-16">
+    <h1 class="text-4xl font-bold tracking-tight sm:text-5xl">{t(ui.life, lang)}</h1>
+    <p class="mt-4 max-w-2xl text-lg leading-relaxed text-ink-dim">{t(ui.lifeLead, lang)}</p>
+  </section>
+
+  {
+    groups.map((group, gi) => (
+      <section class="border-t border-line-soft py-12">
+        <header class="mb-8">
+          <h2 class="text-sm font-semibold uppercase tracking-widest text-ink-faint">
+            {t(domainLabel[group.domain], lang)}
+          </h2>
+          <p class="mt-3 max-w-2xl leading-relaxed text-ink-dim">
+            {t(domainLead[group.domain], lang)}
+          </p>
+        </header>
+
+        {/*
+          Une grille fixe pour les domaines a deux cartes : faire tourner un
+          carrousel de deux elements distrait sans rien apporter.
+          Sinon un carrousel, decale de 1,2 s pour que les rangees ne
+          tournent pas ensemble.
+        */}
+        {staticDomains.includes(group.domain) ? (
+          <div class="grid gap-5 sm:grid-cols-2">
+            {group.cards.map(({ cat, urls, idx }) => (
+              <LifeCard cat={cat} urls={urls} lang={lang} idx={idx} />
+            ))}
+          </div>
+        ) : (
+          <Coverflow client:load size={group.cards.length} copies={COPIES} offset={gi * 1200}>
+            {Array.from({ length: COPIES }).flatMap((_, copy) =>
+              group.cards.map(({ cat, urls, idx }) => (
+                <LifeCard
+                  cat={cat}
+                  urls={urls}
+                  lang={lang}
+                  idx={idx}
+                  floating
+                  clone={copy !== 0}
+                />
+              )),
+            )}
+          </Coverflow>
+        )}
+      </section>
+    ))
+  }
+</Base>

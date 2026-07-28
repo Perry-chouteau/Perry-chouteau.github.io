@@ -1,0 +1,153 @@
+---
+import { ArrowUpRight } from 'lucide-react';
+import Base from '../../../layouts/Base.astro';
+import { Stack, StatusBadge } from '../../../components/entries/shared';
+import { projects, smallProjects, contextOf } from '../../../content';
+import { LANGS, t } from '../../../i18n/config';
+import { ui } from '../../../i18n/ui';
+import { formatRange } from '../../../lib/cn';
+
+export function getStaticPaths() {
+  return LANGS.map((lang) => ({ params: { lang }, props: { lang } }));
+}
+
+const { lang } = Astro.props;
+
+/*
+ * Le decoupage sort du champ `org` : un projet porte par une org GitHub est
+ * un ecosysteme (plusieurs depots), les autres tiennent debout seuls. Pas de
+ * champ en plus a maintenir, et la donnee est deja vraie.
+ */
+const orgs = projects.filter((p) => p.org);
+const standalone = projects.filter((p) => !p.org);
+
+const sections = [
+  { id: 'organisations', label: ui.navOrgs },
+  ...(standalone.length ? [{ id: 'standalone', label: ui.navStandalone }] : []),
+  ...(smallProjects.length ? [{ id: 'mini', label: ui.navMini }] : []),
+];
+---
+
+<Base
+  lang={lang}
+  sections={sections}
+  title={`${t(ui.projects, lang)} — Perry Chouteau`}
+  description={t(ui.projectsLead, lang)}
+>
+  <section class="py-16">
+    <h1 class="text-4xl font-bold tracking-tight sm:text-5xl">{t(ui.projects, lang)}</h1>
+    <p class="mt-4 max-w-2xl text-lg leading-relaxed text-ink-dim">{t(ui.projectsLead, lang)}</p>
+  </section>
+
+  {/* --- Organisations --- */}
+  <section id="organisations" class="scroll-mt-20 border-t border-line-soft py-14">
+    <h2 class="text-2xl font-bold tracking-tight sm:text-3xl">{t(ui.navOrgs, lang)}</h2>
+    <p class="mt-2 max-w-2xl text-ink-dim">{t(ui.orgsLead, lang)}</p>
+
+    <div class="mt-8 space-y-4">
+      {
+        orgs.map((p) => (
+          <a
+            href={`/${lang}/projects/${p.id}`}
+            class="group block rounded-card border border-line-soft bg-surface p-5 transition-colors hover:border-[var(--accent-line)]"
+          >
+            <div class="flex flex-wrap items-center justify-between gap-3">
+              <h3 class="text-lg font-semibold text-ink transition-colors group-hover:text-[var(--accent)]">
+                {t(p.title, lang)}
+              </h3>
+              <StatusBadge status={p.status} lang={lang} />
+            </div>
+            <p class="mt-1.5 font-mono text-xs text-ink-faint">
+              {formatRange(p.date, lang)} · {t(contextOf(p.context).label, lang)}
+            </p>
+            <p class="mt-3 max-w-2xl text-[0.9375rem] leading-relaxed text-ink-dim">
+              {t(p.tagline, lang)}
+            </p>
+            <div class="mt-4 flex flex-wrap items-center justify-between gap-3">
+              <Stack stack={p.stack} lang={lang} />
+              <span class="inline-flex items-center gap-1 text-[0.8125rem] font-medium text-[var(--accent)]">
+                {t(ui.seeProject, lang)}
+                <ArrowUpRight className="size-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </span>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  {/* --- Projets autonomes --- */}
+  {
+    standalone.length > 0 && (
+      <section id="standalone" class="scroll-mt-20 border-t border-line-soft py-14">
+        <h2 class="text-2xl font-bold tracking-tight sm:text-3xl">{t(ui.navStandalone, lang)}</h2>
+        <p class="mt-2 max-w-2xl text-ink-dim">{t(ui.standaloneLead, lang)}</p>
+
+        <div class="mt-8 grid gap-4 sm:grid-cols-2">
+          {standalone.map((p) => (
+            <a
+              href={`/${lang}/projects/${p.id}`}
+              class="group flex flex-col gap-3 rounded-card border border-line-soft bg-surface p-5 transition-colors hover:border-[var(--accent-line)]"
+            >
+              <div class="flex items-start justify-between gap-3">
+                <h3 class="text-lg font-semibold leading-tight text-ink transition-colors group-hover:text-[var(--accent)]">
+                  {t(p.title, lang)}
+                </h3>
+                <StatusBadge status={p.status} lang={lang} />
+              </div>
+              <p class="font-mono text-xs text-ink-faint">
+                {formatRange(p.date, lang)} · {t(contextOf(p.context).label, lang)}
+              </p>
+              <p class="text-[0.9375rem] leading-relaxed text-ink-dim">{t(p.tagline, lang)}</p>
+              <div class="mt-auto space-y-3 pt-1">
+                <Stack stack={p.stack} lang={lang} />
+                <span class="inline-flex items-center gap-1 text-[0.8125rem] font-medium text-[var(--accent)]">
+                  {t(ui.seeProject, lang)}
+                  <ArrowUpRight className="size-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+    )
+  }
+
+  {/* --- Mini projets : une ligne, un lien, pas de page. --- */}
+  {
+    smallProjects.length > 0 && (
+      <section id="mini" class="scroll-mt-20 border-t border-line-soft py-14">
+        <h2 class="text-2xl font-bold tracking-tight sm:text-3xl">{t(ui.smallTitle, lang)}</h2>
+        <p class="mt-2 max-w-2xl text-ink-dim">{t(ui.smallLead, lang)}</p>
+
+        <ul class="mt-8 divide-y divide-line-soft">
+          {smallProjects.map((p) => (
+            <li class="py-5">
+              <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                <h3 class="font-semibold text-ink">{p.name}</h3>
+                <span class="font-mono text-xs text-ink-faint">{p.year}</span>
+                {p.url && (
+                  <a
+                    href={p.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    class="ml-auto inline-flex items-center gap-1 text-[0.8125rem] font-medium text-[var(--accent)] hover:underline"
+                  >
+                    GitHub
+                    <ArrowUpRight className="size-3.5" />
+                  </a>
+                )}
+              </div>
+              <p class="mt-1.5 max-w-2xl text-[0.9375rem] leading-relaxed text-ink-dim">
+                {t(p.blurb, lang)}
+              </p>
+              <div class="mt-3">
+                <Stack stack={p.stack} lang={lang} />
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+</Base>

@@ -1,0 +1,128 @@
+---
+import { ArrowLeft, ImageOff } from 'lucide-react';
+import Base from '../../../../layouts/Base.astro';
+import { Bullets, Links, Stack } from '../../../../components/entries/shared';
+import Gallery from '../../../../components/Gallery.astro';
+import { imagesIn } from '../../../../lib/media';
+import { projects } from '../../../../content';
+import { LANGS, t } from '../../../../i18n/config';
+import { ui } from '../../../../i18n/ui';
+
+/** Une page par brique, par projet ET par langue. */
+export function getStaticPaths() {
+  return LANGS.flatMap((lang) =>
+    projects.flatMap((project) =>
+      (project.subprojects ?? []).map((sub) => ({
+        params: { lang, project: project.id, sub: sub.id },
+        props: { lang, project, sub },
+      })),
+    ),
+  );
+}
+
+const { lang, project, sub } = Astro.props;
+const images = imagesIn(sub.dir);
+
+/* Navigation entre briques du meme projet. */
+const subs = project.subprojects ?? [];
+const idx = subs.findIndex((s) => s.id === sub.id);
+const prev = idx > 0 ? subs[idx - 1] : null;
+const next = idx < subs.length - 1 ? subs[idx + 1] : null;
+---
+
+<Base
+  lang={lang}
+  title={`${sub.title} — ${t(project.title, lang)} | Perry Chouteau`}
+  description={t(sub.summary, lang)}
+>
+  <article class="py-12 sm:py-16">
+    <a
+      href={`/${lang}/projects/${project.id}`}
+      class="mb-8 inline-flex items-center gap-1.5 text-sm text-ink-faint transition-colors hover:text-ink"
+    >
+      <ArrowLeft className="size-4" />
+      {t(project.title, lang)}
+    </a>
+
+    <header class="border-b border-line-soft pb-8">
+      <p class="font-mono text-xs text-ink-faint">{project.org ?? t(project.title, lang)}</p>
+      <h1 class="mt-2 font-mono text-4xl font-bold tracking-tight sm:text-5xl">{sub.title}</h1>
+      <p class="mt-5 max-w-2xl text-lg leading-relaxed text-ink-dim">{t(sub.summary, lang)}</p>
+
+      <div class="mt-7 space-y-4">
+        <Stack stack={sub.stack} lang={lang} />
+        <Links links={sub.links} />
+      </div>
+    </header>
+
+    {/*
+      Les images d'abord : sur une lib, un schema ou une sortie fait
+      comprendre en trois secondes ce qu'un paragraphe met une minute a dire.
+    */}
+    {
+      images.length > 0 ? (
+        <section class="py-10">
+          <Gallery images={images} alt={sub.title} />
+        </section>
+      ) : (
+        <p class="mt-10 flex items-center justify-center gap-2 rounded-card border border-dashed border-line py-16 text-center text-sm text-ink-faint">
+          <ImageOff className="size-4" />
+          {t(ui.noPhotoYet, lang)}
+        </p>
+      )
+    }
+
+    {/* Le corps, si la brique a de quoi le remplir. */}
+    {
+      sub.blocks && sub.blocks.length > 0 && (
+        <div class="space-y-12 pb-12">
+          {sub.blocks.map((block) => (
+            <section>
+              <h2 class="mb-4 text-xl font-bold tracking-tight">{t(block.heading, lang)}</h2>
+              {block.body && (
+                <p class="max-w-2xl leading-relaxed text-ink-dim">{t(block.body, lang)}</p>
+              )}
+              {block.bullets && (
+                <div class="max-w-2xl">
+                  <Bullets bullets={block.bullets} lang={lang} />
+                </div>
+              )}
+            </section>
+          ))}
+        </div>
+      )
+    }
+
+    {
+      (prev || next) && (
+        <nav class="mt-6 flex items-stretch justify-between gap-4 border-t border-line-soft pt-6">
+          {prev ? (
+            <a
+              href={`/${lang}/projects/${project.id}/${prev.id}`}
+              class="group flex flex-col gap-0.5 text-left"
+            >
+              <span class="font-mono text-xs text-ink-faint">{t(ui.previous, lang)}</span>
+              <span class="font-mono font-medium text-ink-dim group-hover:text-[var(--accent)]">
+                {prev.title}
+              </span>
+            </a>
+          ) : (
+            <span />
+          )}
+
+          {next && (
+            <a
+              href={`/${lang}/projects/${project.id}/${next.id}`}
+              class="group flex flex-col gap-0.5 text-right"
+            >
+              <span class="font-mono text-xs text-ink-faint">{t(ui.next, lang)}</span>
+              <span class="font-mono font-medium text-ink-dim group-hover:text-[var(--accent)]">
+                {next.title}
+              </span>
+            </a>
+          )}
+        </nav>
+      )
+    }
+  </article>
+</Base>

@@ -1,0 +1,12 @@
+node_modules
+dist
+.git
+.github
+.vscode
+.claude
+.astro
+*.log
+.DS_Store
+Dockerfile
+.dockerignore
+README.md

@@ -1,0 +1,184 @@
+---
+import { ArrowLeft, MapPin, Mail, ArrowUpRight } from 'lucide-react';
+import Base from '../../../../layouts/Base.astro';
+import { Bullets, Links, Stack, StatusBadge } from '../../../../components/entries/shared';
+import MediaGrid from '../../../../components/MediaGrid.astro';
+import { Image } from 'astro:assets';
+import { imagesIn } from '../../../../lib/media';
+import { projects, contextOf, profile } from '../../../../content';
+import { LANGS, t } from '../../../../i18n/config';
+import { ui } from '../../../../i18n/ui';
+import { formatRange } from '../../../../lib/cn';
+
+/** Une vraie page HTML par projet ET par langue : partageable, indexable. */
+export function getStaticPaths() {
+  return LANGS.flatMap((lang) =>
+    projects.map((project) => ({
+      params: { lang, project: project.id },
+      props: { lang, project },
+    })),
+  );
+}
+
+const { lang, project } = Astro.props;
+const context = contextOf(project.context);
+
+/* Chaque brique porte son dossier d'images : schemas, captures, resultats. */
+const subs = (project.subprojects ?? []).map((sp) => ({ sp, images: imagesIn(sp.dir) }));
+---
+
+<Base
+  lang={lang}
+  title={`${t(project.title, lang)} — Perry Chouteau`}
+  description={t(project.tagline, lang)}
+>
+  <article class="py-12 sm:py-16">
+    <a
+      href={`/${lang}/projects`}
+      class="mb-8 inline-flex items-center gap-1.5 text-sm text-ink-faint transition-colors hover:text-ink"
+    >
+      <ArrowLeft className="size-4" />
+      {t(ui.backToProjects, lang)}
+    </a>
+
+    <header class="border-b border-line-soft pb-10">
+      <div class="flex flex-wrap items-center gap-3">
+        <StatusBadge status={project.status} lang={lang} />
+        <span class="font-mono text-xs text-ink-faint">{t(context.label, lang)}</span>
+      </div>
+
+      <h1 class="mt-4 text-4xl font-bold tracking-tight sm:text-5xl">
+        {t(project.title, lang)}
+      </h1>
+
+      <p class="mt-3 font-mono text-sm text-ink-faint">
+        {formatRange(project.date, lang)}
+        {project.org && ` · ${project.org}`}
+      </p>
+
+      <p class="mt-6 max-w-2xl text-lg leading-relaxed text-ink-dim">
+        {t(project.summary, lang)}
+      </p>
+
+      <div class="mt-7 space-y-4">
+        <Stack stack={project.stack} lang={lang} />
+        <Links links={project.links} />
+      </div>
+    </header>
+
+    {/*
+      Les resultats passent AVANT les blocs : montrer ce que ca produit coute
+      trois secondes au visiteur, lire pourquoi lui en coute trente. Il faut
+      voir avant de decider si on lit.
+    */}
+    {
+      project.media && project.media.length > 0 && (
+        <section class="py-12">
+          <h2 class="mb-5 text-xl font-bold tracking-tight">{t(ui.mediaTitle, lang)}</h2>
+          <MediaGrid media={project.media} lang={lang} fallbackAlt={t(project.title, lang)} />
+        </section>
+      )
+    }
+
+    {/*
+      Les briques du projet. Chacune montre ce qu'elle produit : un schema
+      vaut mieux qu'un paragraphe pour un ECS ou un generateur procedural.
+    */}
+    {
+      subs.length > 0 && (
+        <section class="py-12">
+          <h2 class="mb-6 text-xl font-bold tracking-tight">{t(ui.subprojects, lang)}</h2>
+          {/*
+            En ligne et non en colonne : le visiteur doit tout embrasser d'un
+            coup d'oeil. Une ligne de resume suffit — pour comprendre, il
+            clique. La carte entiere est cliquable quand un lien existe.
+          */}
+          <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {subs.map(({ sp, images }) => {
+              return (
+                <a
+                  href={`/${lang}/projects/${project.id}/${sp.id}`}
+                  class="group flex flex-col overflow-hidden rounded-card border border-line-soft bg-surface transition-colors hover:border-[var(--accent-line)]"
+                >
+                  {images[0] && (
+                    <div class="aspect-[16/10] overflow-hidden bg-bg">
+                      <Image
+                        src={images[0]}
+                        alt={sp.title}
+                        widths={[400, 800]}
+                        sizes="(min-width: 1024px) 340px, 50vw"
+                        format="webp"
+                        quality={78}
+                        loading="lazy"
+                        class="size-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+                      />
+                    </div>
+                  )}
+
+                  <div class="flex flex-1 flex-col gap-2 p-4">
+                    <h3 class="font-mono text-sm font-semibold text-ink transition-colors group-hover:text-[var(--accent)]">
+                      {sp.title}
+                    </h3>
+                    <p class="text-[0.8125rem] leading-relaxed text-ink-dim">{t(sp.summary, lang)}</p>
+                    <div class="mt-auto space-y-2 pt-1">
+                      <Stack stack={sp.stack} lang={lang} />
+                      <span class="inline-flex items-center gap-1 text-[0.8125rem] font-medium text-[var(--accent)]">
+                        {t(ui.seeMore, lang)}
+                        <ArrowUpRight className="size-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                      </span>
+                    </div>
+                  </div>
+                </a>
+              );
+            })}
+          </div>
+        </section>
+      )
+    }
+
+    {/* Le corps. Chaque bloc est un titre + du texte ou des puces. */}
+    <div class="space-y-12 pb-12">
+      {
+        project.blocks?.map((block) => (
+          <section>
+            <h2 class="mb-4 text-xl font-bold tracking-tight">{t(block.heading, lang)}</h2>
+            {block.body && (
+              <p class="max-w-2xl leading-relaxed text-ink-dim">{t(block.body, lang)}</p>
+            )}
+            {block.bullets && (
+              <div class="max-w-2xl">
+                <Bullets bullets={block.bullets} lang={lang} />
+              </div>
+            )}
+          </section>
+        ))
+      }
+    </div>
+
+    <footer
+      class="rounded-2xl border border-line-soft bg-surface px-6 py-10 text-center sm:px-8"
+    >
+      <h2 class="text-xl font-bold tracking-tight">{t(ui.contactTitle, lang)}</h2>
+      {/*
+        Chaque ligne dans son conteneur BLOC. Avant, le bouton et la phrase
+        etaient tous deux en inline-flex : deux boites inline, donc posees
+        cote a cote sur la meme ligne, et le mt-5 ne separait rien.
+      */}
+      <div class="mt-6">
+        <a
+          href={`mailto:${profile.email}`}
+          class="inline-flex items-center gap-2 rounded-lg bg-[var(--accent)] px-5 py-2.5 text-sm font-semibold text-bg transition-opacity hover:opacity-90"
+        >
+          <Mail className="size-4" />
+          {profile.email}
+        </a>
+      </div>
+      <div class="mt-4">
+        <p class="inline-flex items-center gap-1.5 text-xs text-ink-faint">
+          <MapPin className="size-3" />
+          {t(profile.availability, lang)}
+        </p>
+      </div>
+    </footer>
+  </article>
+</Base>

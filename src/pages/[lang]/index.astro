@@ -1,0 +1,312 @@
+---
+import { Image } from 'astro:assets';
+import {
+  Mail,
+  MapPin,
+  Quote,
+  Download,
+  ArrowUpRight,
+  ArrowRight,
+  Webhook,
+  ArrowLeftRight,
+  Database,
+  Cloud,
+  ShieldCheck,
+  Boxes,
+  FlaskConical,
+  Workflow,
+} from 'lucide-react';
+import Base from '../../layouts/Base.astro';
+import { ExperienceItem, EducationItem } from '../../components/entries/CvItem';
+import {
+  experience,
+  education,
+  projects,
+  profile,
+  recommendation,
+  skillGroups,
+  labelOf,
+} from '../../content';
+import { skillIcons } from '../../content/skill-icons';
+import { LANGS, t } from '../../i18n/config';
+import { ui } from '../../i18n/ui';
+import photo from '../../assets/perry.jpg';
+
+export function getStaticPaths() {
+  return LANGS.map((lang) => ({ params: { lang }, props: { lang } }));
+}
+
+const { lang } = Astro.props;
+
+/*
+ * Les concepts n'ont pas de logo de marque (REST, ORM, AWS sans icone Simple
+ * Icons...). Plutot que de coller un logo trompeur — Jest pour "tests", Docker
+ * pour "registre" — on leur donne un glyphe GENERIQUE, monochrome. Colore = une
+ * vraie marque, gris = une categorie : la distinction est honnete et volontaire.
+ */
+const conceptIcons: Record<string, typeof Webhook> = {
+  rest: Webhook,
+  rpc: ArrowLeftRight,
+  orm: Database,
+  aws: Cloud,
+  certmanager: ShieldCheck,
+  registry: Boxes,
+  unittest: FlaskConical,
+  e2e: Workflow,
+};
+
+/* Un teaser seulement : les projets ont leur propre espace. */
+const teaser = projects.filter((p) => p.featured).slice(0, 3);
+
+/* Chaque id doit exister sur un <section> plus bas, sinon le sommaire pointe dans le vide. */
+const sections = [
+  { id: 'presentation', label: ui.navPresentation },
+  { id: 'experience', label: ui.experience },
+  { id: 'education', label: ui.education },
+  { id: 'skills', label: ui.skills },
+  { id: 'contact', label: ui.navContact },
+];
+---
+
+<Base
+  lang={lang}
+  sections={sections}
+  title={`${profile.name} — ${t(profile.title, lang)}`}
+  description={t(ui.metaDescription, lang)}
+>
+  {/* --- Presentation --- */}
+  <section id="presentation" class="grid scroll-mt-20 items-center gap-10 py-16 sm:py-24 md:grid-cols-[1fr_auto]">
+    <div>
+      <p
+        class="inline-flex items-center gap-2 rounded-full border border-[var(--accent-line)] bg-[var(--accent-soft)] px-3 py-1 text-sm font-medium text-[var(--accent)]"
+      >
+        <span class="relative flex size-2">
+          <span
+            class="absolute inline-flex size-full animate-ping rounded-full bg-[var(--accent)] opacity-60"
+          ></span>
+          <span class="relative inline-flex size-2 rounded-full bg-[var(--accent)]"></span>
+        </span>
+        {t(profile.availability, lang)}
+      </p>
+
+      <h1 class="mt-5 text-5xl font-bold tracking-tight sm:text-6xl">{profile.name}</h1>
+      <p class="mt-2 text-2xl text-ink-dim">{t(profile.title, lang)}</p>
+      <p class="mt-6 max-w-xl text-lg leading-relaxed text-ink-dim">{t(profile.pitch, lang)}</p>
+
+      <div class="mt-8 flex flex-wrap gap-2">
+        <a
+          href={`mailto:${profile.email}`}
+          class="inline-flex items-center gap-2 rounded-lg bg-[var(--accent)] px-4 py-2.5 text-sm font-semibold text-bg transition-opacity hover:opacity-90"
+        >
+          <Mail className="size-4" />
+          {profile.email}
+        </a>
+        {
+          profile.cv && (
+            <a
+              href={profile.cv}
+              class="inline-flex items-center gap-2 rounded-lg border border-line px-4 py-2.5 text-sm font-medium text-ink-dim transition-colors hover:border-[var(--accent-line)] hover:text-ink"
+            >
+              <Download className="size-4" />
+              {t(ui.downloadCv, lang)}
+            </a>
+          )
+        }
+        <a
+          href={profile.github}
+          target="_blank"
+          rel="noreferrer"
+          class="inline-flex items-center gap-1 rounded-lg border border-line px-4 py-2.5 text-sm font-medium text-ink-dim transition-colors hover:border-[var(--accent-line)] hover:text-ink"
+        >
+          GitHub <ArrowUpRight className="size-3.5" />
+        </a>
+        <a
+          href={profile.linkedin}
+          target="_blank"
+          rel="noreferrer"
+          class="inline-flex items-center gap-1 rounded-lg border border-line px-4 py-2.5 text-sm font-medium text-ink-dim transition-colors hover:border-[var(--accent-line)] hover:text-ink"
+        >
+          LinkedIn <ArrowUpRight className="size-3.5" />
+        </a>
+      </div>
+
+      <dl class="mt-10 flex gap-8">
+        {
+          profile.stats.map((stat) => (
+            <div>
+              <dt class="sr-only">{t(stat.label, lang)}</dt>
+              <dd>
+                <span class="block text-3xl font-bold tracking-tight text-ink">{stat.value}</span>
+                <span class="mt-0.5 block text-xs text-ink-faint">{t(stat.label, lang)}</span>
+              </dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+
+    {/*
+      Le portrait est en 2:3, l'affichage est carre : on sert un 480x720 (2x
+      la taille d'affichage) et object-cover recadre. sharp sort le WebP au
+      build, l'original de 1,3 Mo ne quitte jamais le repo.
+    */}
+    <div class="order-first md:order-last">
+      <Image
+        src={photo}
+        alt={profile.name}
+        width={480}
+        height={720}
+        format="webp"
+        quality={80}
+        loading="eager"
+        class="size-40 rounded-2xl border border-line object-cover object-center shadow-2xl md:size-60"
+      />
+    </div>
+  </section>
+
+  {/* La citation passe haut : c'est la preuve la plus forte du dossier. */}
+  <section class="pb-16">
+    <figure
+      class="relative overflow-hidden rounded-2xl border border-[var(--accent-line)] bg-[var(--accent-soft)] p-6 sm:p-8"
+    >
+      <Quote className="absolute -right-2 -top-2 size-24 text-[var(--accent)] opacity-10" />
+      <blockquote class="max-w-2xl text-lg font-medium leading-relaxed text-ink sm:text-xl">
+        « {t(recommendation.quote, lang)} »
+      </blockquote>
+      <p class="mt-4 max-w-2xl text-sm leading-relaxed text-ink-faint">
+        {t(recommendation.context, lang)}
+      </p>
+      <figcaption class="mt-5 flex items-center gap-3">
+        <span
+          class="grid size-9 shrink-0 place-items-center rounded-full border border-line bg-surface text-sm font-semibold text-ink-dim"
+        >
+          RT
+        </span>
+        <span class="text-sm">
+          <span class="block font-semibold text-ink">{recommendation.author}</span>
+          <span class="block text-ink-faint">{t(recommendation.role, lang)}</span>
+        </span>
+      </figcaption>
+    </figure>
+  </section>
+
+  {/* --- Experience pro + freelance --- */}
+  <section id="experience" class="scroll-mt-20 border-t border-line-soft py-16">
+    <h2 class="mb-10 text-2xl font-bold tracking-tight sm:text-3xl">{t(ui.experience, lang)}</h2>
+    {experience.map((entry) => <ExperienceItem entry={entry} lang={lang} />)}
+  </section>
+
+  {/* --- Formation --- */}
+  <section id="education" class="scroll-mt-20 border-t border-line-soft py-16">
+    <h2 class="mb-10 text-2xl font-bold tracking-tight sm:text-3xl">{t(ui.education, lang)}</h2>
+    {education.map((entry) => <EducationItem entry={entry} lang={lang} />)}
+  </section>
+
+  {/*
+    Teaser seulement. Les projets ont leur propre espace : la page principale
+    est un CV, pas un catalogue.
+  */}
+  <section class="border-t border-line-soft py-16">
+    <div class="mb-8 flex items-end justify-between gap-4">
+      <h2 class="text-2xl font-bold tracking-tight sm:text-3xl">{t(ui.projects, lang)}</h2>
+      <a
+        href={`/${lang}/projects`}
+        class="inline-flex shrink-0 items-center gap-1 text-sm font-medium text-[var(--accent)] hover:underline"
+      >
+        {t(ui.allProjects, lang)} <ArrowRight className="size-4" />
+      </a>
+    </div>
+
+    <div class="grid gap-3 sm:grid-cols-3">
+      {
+        teaser.map((p) => (
+          <a
+            href={`/${lang}/projects/${p.id}`}
+            class="group rounded-card border border-line-soft bg-surface p-4 transition-colors hover:border-[var(--accent-line)]"
+          >
+            <h3 class="font-semibold text-ink transition-colors group-hover:text-[var(--accent)]">
+              {t(p.title, lang)}
+            </h3>
+            <p class="mt-1.5 text-sm leading-relaxed text-ink-dim">{t(p.tagline, lang)}</p>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  {/*
+    Compact et en fin de CV : la preuve (experience, projets) passe avant la
+    liste. Ce bloc existe surtout pour les recruteurs et les ATS qui scannent
+    par mots-cles — Haskell ou Assembly n'apparaissent nulle part ailleurs.
+  */}
+  <section id="skills" class="scroll-mt-20 border-t border-line-soft py-16">
+    <h2 class="mb-8 text-2xl font-bold tracking-tight sm:text-3xl">{t(ui.skills, lang)}</h2>
+    <dl class="space-y-5">
+      {
+        skillGroups.map((group) => (
+          <div class="grid gap-2 sm:grid-cols-[11rem_1fr] sm:gap-6">
+            <dt class="pt-0.5 font-mono text-xs text-ink-faint">{t(group.label, lang)}</dt>
+            <dd>
+              <ul class="flex flex-wrap gap-1.5">
+                {group.slugs.map((slug) => {
+                  const icon = skillIcons[slug];
+                  const Concept = conceptIcons[slug];
+                  return (
+                    <li class="inline-flex items-center gap-1.5 rounded-md border border-line-soft bg-surface px-2 py-0.5 font-mono text-[0.6875rem] text-ink-dim">
+                      {icon ? (
+                        <svg
+                          viewBox="0 0 24 24"
+                          class="size-3.5 shrink-0"
+                          fill={`#${icon.hex}`}
+                          aria-hidden="true"
+                        >
+                          <path d={icon.path} />
+                        </svg>
+                      ) : (
+                        Concept && <Concept className="size-3.5 shrink-0 text-ink-faint" />
+                      )}
+                      {labelOf(slug, lang)}
+                    </li>
+                  );
+                })}
+              </ul>
+            </dd>
+          </div>
+        ))
+      }
+    </dl>
+  </section>
+
+  {/* --- Contact --- */}
+  <section
+    id="contact"
+    class="scroll-mt-20 rounded-2xl border border-line-soft bg-surface px-6 py-12 text-center sm:px-8 sm:py-16"
+  >
+    <h2 class="text-2xl font-bold tracking-tight sm:text-3xl">{t(ui.contactTitle, lang)}</h2>
+    <p class="mx-auto mt-3 max-w-md leading-relaxed text-ink-dim">{t(ui.contactBody, lang)}</p>
+    <div class="mt-7 flex flex-wrap justify-center gap-2">
+      <a
+        href={`mailto:${profile.email}`}
+        class="inline-flex items-center gap-2 rounded-lg bg-[var(--accent)] px-5 py-2.5 text-sm font-semibold text-bg transition-opacity hover:opacity-90"
+      >
+        <Mail className="size-4" />
+        {profile.email}
+      </a>
+      <a
+        href={profile.linkedin}
+        target="_blank"
+        rel="noreferrer"
+        class="inline-flex items-center gap-1 rounded-lg border border-line px-5 py-2.5 text-sm font-medium text-ink-dim transition-colors hover:border-[var(--accent-line)] hover:text-ink"
+      >
+        LinkedIn <ArrowUpRight className="size-3.5" />
+      </a>
+    </div>
+    {/* Conteneur bloc : sans lui, le inline-flex se colle a ce qui precede. */}
+    <div class="mt-8">
+      <p class="inline-flex items-center gap-1.5 text-xs text-ink-faint">
+        <MapPin className="size-3" />
+        {t(profile.availability, lang)}
+      </p>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,117 @@
+@import 'tailwindcss';
+
+/*
+ * Les valeurs de @theme sont le thème SOMBRE (defaut).
+ * Le thème clair surcharge les memes variables plus bas : aucun composant
+ * n'a besoin de connaitre le thème courant.
+ *
+ * Plus de --space-hue : le rail Discord et ses 5 accents sont morts avec la
+ * nav. Un seul accent, bleu, comme le CV.
+ */
+@theme {
+  --font-sans: 'Inter Variable', 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
+
+  --color-bg: oklch(0.17 0.008 250);
+  --color-surface: oklch(0.21 0.009 250);
+  --color-surface-hi: oklch(0.25 0.01 250);
+
+  --color-line: oklch(0.3 0.009 250);
+  --color-line-soft: oklch(0.25 0.008 250);
+
+  --color-ink: oklch(0.96 0.003 250);
+  --color-ink-dim: oklch(0.75 0.011 250);
+  --color-ink-faint: oklch(0.58 0.012 250);
+
+  --radius-card: 0.75rem;
+}
+
+:root {
+  --accent-l: 0.7;
+  --accent-c: 0.15;
+  --accent-h: 250;
+
+  --accent: oklch(var(--accent-l) var(--accent-c) var(--accent-h));
+  --accent-soft: oklch(var(--accent-l) var(--accent-c) var(--accent-h) / 0.12);
+  --accent-line: oklch(var(--accent-l) var(--accent-c) var(--accent-h) / 0.4);
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+
+  --color-bg: oklch(0.99 0.002 250);
+  --color-surface: oklch(0.975 0.003 250);
+  --color-surface-hi: oklch(0.95 0.004 250);
+
+  --color-line: oklch(0.88 0.005 250);
+  --color-line-soft: oklch(0.93 0.004 250);
+
+  --color-ink: oklch(0.22 0.014 250);
+  --color-ink-dim: oklch(0.44 0.014 250);
+  --color-ink-faint: oklch(0.58 0.012 250);
+
+  /* L'accent doit s'assombrir sur fond clair, sinon il devient illisible. */
+  --accent-l: 0.5;
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-line-soft);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scrollbar-color: var(--color-line) transparent;
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-line);
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  /*
+   * Le bouton de thème rend SES DEUX icones, le CSS cache la bonne selon
+   * data-theme. Evite tout mismatch d'hydratation : le serveur ne peut pas
+   * connaitre le thème choisi par le visiteur.
+   */
+  :root[data-theme='light'] [data-icon='to-light'],
+  :root[data-theme='dark'] [data-icon='to-dark'] {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

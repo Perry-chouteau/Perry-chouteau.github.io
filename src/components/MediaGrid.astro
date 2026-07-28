@@ -1,0 +1,66 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import type { Media, MediaInput } from '../content/types';
+import { type Lang, t } from '../i18n/config';
+
+type Props = {
+  media: MediaInput[];
+  lang: Lang;
+  /** Sert d'alt quand l'image n'en declare pas. */
+  fallbackAlt: string;
+};
+const { media, lang, fallbackAlt } = Astro.props;
+
+/** 'mur.jpg' et { src: 'mur.jpg', ... } aboutissent au meme objet. */
+const normalize = (m: MediaInput): Media => (typeof m === 'string' ? { src: m } : m);
+
+/*
+ * import.meta.glob resout les images au BUILD : on ne peut pas donner un
+ * chemin dynamique a <Image>, il lui faut un import statique. Le glob fait le
+ * pont entre "un nom de fichier dans la donnee" et "un import qu'Astro sait
+ * optimiser".
+ *
+ * eager: sinon on recupere des promesses et il faudrait await dans le rendu.
+ */
+const files = import.meta.glob<{ default: ImageMetadata }>(
+  '/src/assets/media/**/*.{png,jpg,jpeg,webp,avif}',
+  { eager: true },
+);
+
+const resolve = (src: string) => {
+  const hit = files[`/src/assets/media/${src}`];
+  if (!hit) {
+    /* Echec de BUILD, pas image cassee en prod : on veut le savoir maintenant. */
+    throw new Error(
+      `Media introuvable : src/assets/media/${src}\n` +
+        `Fichiers disponibles : ${Object.keys(files).join(', ') || '(aucun)'}`,
+    );
+  }
+  return hit.default;
+};
+---
+
+<div class="grid gap-4 sm:grid-cols-2">
+  {
+    media.map(normalize).map((m) => (
+      <figure class="overflow-hidden rounded-card border border-line-soft bg-surface">
+        <Image
+          src={resolve(m.src)}
+          alt={m.alt ? t(m.alt, lang) : m.caption ? t(m.caption, lang) : fallbackAlt}
+          widths={[480, 960]}
+          sizes="(min-width: 640px) 480px, 100vw"
+          format="webp"
+          quality={80}
+          loading="lazy"
+          class="w-full object-cover"
+        />
+        {m.caption && (
+          <figcaption class="border-t border-line-soft px-4 py-2.5 text-xs leading-relaxed text-ink-faint">
+            {t(m.caption, lang)}
+          </figcaption>
+        )}
+      </figure>
+    ))
+  }
+</div>

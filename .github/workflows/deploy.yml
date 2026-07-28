@@ -1,0 +1,34 @@
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Podman
+        run: |
+          sudo apt update
+          sudo apt install -y podman
+
+      - name: Build image
+        run: |
+          podman build -t registry.perrychouteau.com/portfolio:latest -t registry2.perrychouteau.com/portfolio:latest -f ./Containerfile ./
+
+      - name: Login to registry
+        run: |
+          echo "${{ secrets.REGISTRY_PASS }}" | podman login registry.perrychouteau.com -u "${{ secrets.REGISTRY_USER }}" --password-stdin
+          echo "${{ secrets.REGISTRY_PASS }}" | podman login registry2.perrychouteau.com -u "${{ secrets.REGISTRY_USER }}" --password-stdin
+
+      - name: Push image 2
+        run: |
+          podman push registry.perrychouteau.com/portfolio:latest
+          podman push registry2.perrychouteau.com/portfolio:latest

@@ -1,0 +1,126 @@
+---
+import { Image } from 'astro:assets';
+import { ArrowLeft, MapPin, ImageOff } from 'lucide-react';
+import Base from '../../../../layouts/Base.astro';
+import { lifeCategories } from '../../../../content/life';
+import { imagesIn } from '../../../../lib/media';
+import Gallery from '../../../../components/Gallery.astro';
+import { LANGS, t } from '../../../../i18n/config';
+import { ui } from '../../../../i18n/ui';
+
+/** Une page par activite, par categorie ET par langue. */
+export function getStaticPaths() {
+  return LANGS.flatMap((lang) =>
+    lifeCategories.flatMap((cat) =>
+      cat.items.map((item) => ({
+        params: { lang, category: cat.id, item: item.id },
+        props: { lang, cat, item },
+      })),
+    ),
+  );
+}
+
+const { lang, cat, item } = Astro.props;
+const images = imagesIn(item.dir);
+
+/* Navigation entre activites de la meme categorie : precedent / suivant. */
+const idx = cat.items.findIndex((i) => i.id === item.id);
+const prev = idx > 0 ? cat.items[idx - 1] : null;
+const next = idx < cat.items.length - 1 ? cat.items[idx + 1] : null;
+---
+
+<Base
+  lang={lang}
+  title={`${item.title} — ${t(cat.title, lang)} | Perry Chouteau`}
+  description={item.note ? t(item.note, lang) : t(cat.tagline, lang)}
+>
+  <div class="py-12 sm:py-16">
+    <a
+      href={`/${lang}/life/${cat.id}`}
+      class="mb-8 inline-flex items-center gap-1.5 text-sm text-ink-faint transition-colors hover:text-ink"
+    >
+      <ArrowLeft className="size-4" />
+      {t(cat.title, lang)}
+    </a>
+
+    <header class="border-b border-line-soft pb-8">
+      <div class="flex flex-wrap items-center gap-3 font-mono text-xs text-ink-faint">
+        {item.region && (
+          <span class="inline-flex items-center gap-1">
+            <MapPin className="size-3" />
+            {item.region}
+          </span>
+        )}
+        {item.stat && <span>{item.stat}</span>}
+        {item.year && <span>{item.year}</span>}
+      </div>
+
+      <h1 class="mt-3 text-4xl font-bold tracking-tight sm:text-5xl">{item.title}</h1>
+
+      {/* L'anecdote porte la page. C'est ce qu'on vient lire. */}
+      {item.note && (
+        <p class="mt-5 max-w-2xl text-lg leading-relaxed text-ink-dim">{t(item.note, lang)}</p>
+      )}
+
+      {item.tasks && item.tasks.length > 0 && (
+        <ul class="mt-6 flex flex-wrap gap-1.5">
+          {item.tasks.map((task) => (
+            <li class="rounded-md border border-line-soft bg-surface px-2 py-0.5 text-[0.6875rem] text-ink-dim">
+              {t(task, lang)}
+            </li>
+          ))}
+        </ul>
+      )}
+    </header>
+
+    {/*
+      La galerie. Les photos sont lues depuis le dossier de l'item : en
+      deposer une de plus suffit a la publier, sans toucher au code.
+    */}
+    {
+      images.length === 0 ? (
+        <p class="mt-10 flex items-center justify-center gap-2 rounded-card border border-dashed border-line py-16 text-center text-sm text-ink-faint">
+          <ImageOff className="size-4" />
+          {t(ui.noPhotoYet, lang)}
+        </p>
+      ) : (
+        <div class="mt-10">
+          <Gallery images={images} alt={item.title} />
+        </div>
+      )
+    }
+
+    {/* Precedent / suivant : on enchaine sans repasser par la liste. */}
+    {
+      (prev || next) && (
+        <nav class="mt-14 flex items-stretch justify-between gap-4 border-t border-line-soft pt-6">
+          {prev ? (
+            <a
+              href={`/${lang}/life/${cat.id}/${prev.id}`}
+              class="group flex flex-col gap-0.5 text-left transition-colors hover:text-ink"
+            >
+              <span class="font-mono text-xs text-ink-faint">{t(ui.previous, lang)}</span>
+              <span class="font-medium text-ink-dim group-hover:text-[var(--accent)]">
+                {prev.title}
+              </span>
+            </a>
+          ) : (
+            <span />
+          )}
+
+          {next && (
+            <a
+              href={`/${lang}/life/${cat.id}/${next.id}`}
+              class="group flex flex-col gap-0.5 text-right transition-colors hover:text-ink"
+            >
+              <span class="font-mono text-xs text-ink-faint">{t(ui.next, lang)}</span>
+              <span class="font-medium text-ink-dim group-hover:text-[var(--accent)]">
+                {next.title}
+              </span>
+            </a>
+          )}
+        </nav>
+      )
+    }
+  </div>
+</Base>

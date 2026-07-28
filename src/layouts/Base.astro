@@ -1,0 +1,183 @@
+---
+import '../styles/global.css';
+import Settings from '../components/Settings';
+import SectionNav, { type NavSection } from '../components/SectionNav';
+import { profile } from '../content';
+import { LANGS, type Lang, t } from '../i18n/config';
+import { ui } from '../i18n/ui';
+
+type Props = {
+  lang: Lang;
+  title: string;
+  description: string;
+  /** Les sections du sommaire lateral. Sans elles, la colonne disparait. */
+  sections?: NavSection[];
+};
+
+const { lang, title, description, sections } = Astro.props;
+
+/*
+ * build.format 'file' fait valoir a Astro.url.pathname "/fr/projects.html" au
+ * BUILD, alors qu'il vaut "/fr/projects" en DEV. Sans cette normalisation, le
+ * canonical, les hreflang ET le selecteur de langue pointaient tous sur des
+ * URLs en .html — qui repondent 200 (try_files), donc deux URLs servaient la
+ * meme page et le canonical designait celle qui n'est liee nulle part.
+ * Le dev server masquait completement le bug.
+ */
+const path = Astro.url.pathname.replace(/\.html$/, '');
+
+const altLang: Lang = lang === 'fr' ? 'en' : 'fr';
+const altPath = path.replace(`/${lang}`, `/${altLang}`);
+const canonical = new URL(path, Astro.site);
+
+/*
+ * Deux entrees, pas une de plus. Le saut A L'INTERIEUR d'une page est le
+ * travail du sommaire lateral, pas de la navbar : melanger les deux donnait
+ * une navbar a rallonge qui ne tenait pas en mobile.
+ */
+const isProjects = path.includes('/projects');
+const isLife = path.includes('/life');
+const navItems = [
+  { href: `/${lang}`, label: ui.aboutMe, active: !isProjects && !isLife },
+  { href: `/${lang}/projects`, label: ui.projects, active: isProjects },
+  { href: `/${lang}/life`, label: ui.life, active: isLife },
+];
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    {
+      LANGS.map((l) => (
+        <link
+          rel="alternate"
+          hreflang={l}
+          href={new URL(path.replace(`/${lang}`, `/${l}`), Astro.site)}
+        />
+      ))
+    }
+    <link rel="alternate" hreflang="x-default" href={new URL('/fr', Astro.site)} />
+
+    <meta property="og:type" content="profile" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={lang === 'fr' ? 'fr_FR' : 'en_US'} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    {/*
+      Doit tourner AVANT le premier paint, sinon le site flashe en sombre
+      puis passe en clair. is:inline = pas de bundling, pas de defer.
+    */}
+    <script is:inline>
+      (() => {
+        const saved = localStorage.getItem('theme');
+        document.documentElement.dataset.theme =
+          saved ??
+          (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      })();
+    </script>
+  </head>
+
+  <body class="antialiased">
+    {/* Halo d'accent derriere le hero. Decoratif, donc aria-hidden. */}
+    <div
+      aria-hidden="true"
+      class="pointer-events-none fixed inset-x-0 top-0 -z-10 h-[32rem] opacity-50 [background:radial-gradient(60%_100%_at_50%_0%,var(--accent-soft),transparent_70%)]"
+    >
+    </div>
+
+    <header class="sticky top-0 z-30 border-b border-line-soft bg-bg/70 backdrop-blur-xl">
+      <div class="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-5">
+        <a
+          href={`/${lang}`}
+          class="shrink-0 font-semibold tracking-tight transition-colors hover:text-[var(--accent)]"
+        >
+          {profile.name}
+        </a>
+
+        <nav class="flex items-center gap-1">
+          {
+            navItems.map((item) => (
+              <a
+                href={item.href}
+                aria-current={item.active ? 'page' : undefined}
+                class:list={[
+                  'rounded-lg px-3 py-2 text-sm transition-colors',
+                  item.active
+                    ? 'bg-surface-hi font-medium text-ink'
+                    : 'text-ink-faint hover:bg-surface-hi hover:text-ink',
+                ]}
+              >
+                {t(item.label, lang)}
+              </a>
+            ))
+          }
+        </nav>
+
+        <div class="flex shrink-0 items-center gap-2">
+          <a
+            href={`mailto:${profile.email}`}
+            class="hidden rounded-lg bg-[var(--accent)] px-3.5 py-2 text-sm font-semibold text-bg transition-opacity hover:opacity-90 sm:block"
+          >
+            {t(ui.contact, lang)}
+          </a>
+          <Settings client:load lang={lang} altPath={altPath} altLang={altLang} />
+        </div>
+      </div>
+    </header>
+
+    {/*
+      Sous lg, le sommaire devient une barre collante juste sous le header.
+      Il est rendu ici, hors de la grille, pour pouvoir coller en pleine
+      largeur. Le composant gere lui-meme ses deux formes.
+    */}
+    {
+      sections && sections.length > 0 && (
+        <div class="sticky top-16 z-20 border-b border-line-soft bg-bg/70 py-2 backdrop-blur-xl lg:hidden">
+          <div class="mx-auto max-w-6xl px-5">
+            <SectionNav client:load sections={sections} lang={lang} />
+          </div>
+        </div>
+      )
+    }
+
+    <div class="mx-auto max-w-6xl px-5 pb-24">
+      <div class="gap-12 lg:grid lg:grid-cols-[1fr_11rem]">
+        <main class="min-w-0">
+          <slot />
+        </main>
+
+        {
+          sections && sections.length > 0 && (
+            <aside class="hidden lg:block">
+              <div class="sticky top-24 py-16">
+                <SectionNav client:load sections={sections} lang={lang} />
+              </div>
+            </aside>
+          )
+        }
+      </div>
+    </div>
+
+    <footer class="border-t border-line-soft">
+      <div
+        class="mx-auto flex max-w-6xl flex-col gap-2 px-5 py-8 text-xs text-ink-faint sm:flex-row sm:items-center sm:justify-between"
+      >
+        <p>© {new Date().getFullYear()} {profile.name}</p>
+        <p class="font-mono">
+          <a href={`mailto:${profile.email}`} class="transition-colors hover:text-ink">
+            {profile.email}
+          </a>
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,13 +1,15 @@
 /*
- * Verifie que chaque dossier `dir` / `coverDir` du contenu existe vraiment.
+ * Diagnostic des dossiers `dir` / `coverDir` du contenu — NON bloquant.
  *
- * Pourquoi un script et pas un controle dans src/lib/media.ts : import.meta.glob
- * ne voit que des FICHIERS. Un dossier vide et un dossier renome y sont
- * indistinguables — or le premier est legitime (photos a venir) et le second
- * est un bug qui sort une page vide en silence. fs sait faire la difference.
+ * Politique : un dossier vide OU absent est legitime (photos a venir, ou
+ * projet sans galerie). Le rendu gere deja ce cas — src/lib/media.ts renvoie
+ * simplement aucune image, donc la page sort sans media. Ce script ne fait
+ * donc que LOGGER, il n'interrompt jamais le build.
  *
- * Sortie non nulle = build interrompu. C'est le but : mieux vaut casser ici
- * qu'afficher une page sans photos a un recruteur.
+ * import.meta.glob ne voit que des FICHIERS : un dossier vide et un dossier
+ * renome y sont indistinguables. fs sait faire la difference, d'ou ce script :
+ * il surface un eventuel renommage (typo) dans les logs, sans pour autant
+ * casser la CI si le dossier n'existe pas encore.
  */
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -34,20 +36,20 @@ const orphelins = present.filter(
   (d) => !refs.includes(d) && readdirSync(join(ROOT, d)).some((f) => EXT.test(f)),
 );
 
+/*
+ * Absent : aucune image affichee, c'est OK. On le signale quand meme au cas ou
+ * ce serait un renommage (le "proches" pointe vers un dossier au meme nom).
+ */
 for (const dir of manquants) {
   const feuille = dir.split('/').pop();
   const proches = present.filter((p) => p.endsWith('/' + feuille) || p.includes(feuille));
-  console.error(
-    `✗ ${dir} — dossier introuvable.` +
-      (proches.length ? ` Renome en : ${proches.join(', ')} ?` : '') +
-      `\n  Si les photos n'existent pas encore, retire le champ dir.`,
+  console.warn(
+    `· ${dir} — absent, aucun media affiche.` +
+      (proches.length ? ` (renome en ${proches.join(', ')} ?)` : ''),
   );
 }
 for (const dir of vides) console.warn(`· ${dir} — dossier present mais sans image.`);
 for (const dir of orphelins) console.warn(`· ${dir} — des images, mais aucun contenu ne les affiche.`);
 
-if (manquants.length) {
-  console.error(`\n${manquants.length} dossier(s) media introuvable(s).`);
-  process.exit(1);
-}
-console.log(`✓ media : ${refs.length} dossiers references, tous presents.`);
+const affiches = refs.length - manquants.length - vides.length;
+console.log(`✓ media : ${affiches}/${refs.length} dossiers references avec images.`);

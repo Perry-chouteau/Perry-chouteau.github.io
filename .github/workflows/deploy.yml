@@ -21,14 +21,12 @@ jobs:
 
       - name: Build image
         run: |
-          podman build -t registry.perrychouteau.com/portfolio:latest -t registry2.perrychouteau.com/portfolio:latest -f ./Containerfile ./
+          podman build -t registry2.perrychouteau.com/portfolio:latest -f ./Containerfile ./
 
       - name: Login to registry
         run: |
-          echo "${{ secrets.REGISTRY_PASS }}" | podman login registry.perrychouteau.com -u "${{ secrets.REGISTRY_USER }}" --password-stdin
           echo "${{ secrets.REGISTRY_PASS }}" | podman login registry2.perrychouteau.com -u "${{ secrets.REGISTRY_USER }}" --password-stdin
 
       - name: Push image 2
         run: |
-          podman push registry.perrychouteau.com/portfolio:latest
           podman push registry2.perrychouteau.com/portfolio:latest

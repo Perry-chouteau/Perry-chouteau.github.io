@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 560" width="1760" height="1120" font-family="ui-sans-serif, system-ui, 'Segoe UI', Roboto, sans-serif">
+  <rect width="880" height="560" fill="#13151a"/>
+
+  <!-- header -->
+  <text x="48" y="70" fill="#7c8bff" font-size="44" font-weight="700">ecs</text>
+  <text x="140" y="70" fill="#9aa0ab" font-size="18" font-family="ui-monospace, monospace">Entity · Component · System</text>
+  <text x="48" y="98" fill="#6b7180" font-size="14" font-family="ui-monospace, monospace">header-only C++20 · SparseArray storage · data-oriented</text>
+
+  <!-- Registry panel -->
+  <rect x="48" y="126" width="784" height="236" rx="16" fill="#1c1f27" stroke="#2b2f3a"/>
+  <text x="74" y="160" fill="#eceef2" font-size="17" font-weight="600">Registry</text>
+  <text x="158" y="160" fill="#6b7180" font-size="12.5" font-family="ui-monospace, monospace">one SparseArray&lt;T&gt; per component type</text>
+
+  <!-- column headers (entities) -->
+  <text x="74" y="196" fill="#9aa0ab" font-size="12.5" font-family="ui-monospace, monospace">entity →</text>
+  <text x="392" y="196" fill="#e0a458" font-size="13" font-family="ui-monospace, monospace" text-anchor="middle">e0</text>
+  <text x="512" y="196" fill="#e0a458" font-size="13" font-family="ui-monospace, monospace" text-anchor="middle">e1</text>
+  <text x="632" y="196" fill="#e0a458" font-size="13" font-family="ui-monospace, monospace" text-anchor="middle">e2</text>
+  <text x="752" y="196" fill="#e0a458" font-size="13" font-family="ui-monospace, monospace" text-anchor="middle">e3</text>
+
+  <!-- rows: component SparseArrays -->
+  <!-- Position: e0,e1,e3 -->
+  <text x="74" y="240" fill="#eceef2" font-size="15" font-family="ui-monospace, monospace">Position</text>
+  <circle cx="392" cy="235" r="8" fill="#7c8bff"/>
+  <circle cx="512" cy="235" r="8" fill="#7c8bff"/>
+  <circle cx="632" cy="235" r="8" fill="none" stroke="#3a3f4b" stroke-width="1.5"/>
+  <circle cx="752" cy="235" r="8" fill="#7c8bff"/>
+
+  <!-- Velocity: e0,e3 -->
+  <text x="74" y="283" fill="#eceef2" font-size="15" font-family="ui-monospace, monospace">Velocity</text>
+  <circle cx="392" cy="278" r="8" fill="#7c8bff"/>
+  <circle cx="512" cy="278" r="8" fill="none" stroke="#3a3f4b" stroke-width="1.5"/>
+  <circle cx="632" cy="278" r="8" fill="none" stroke="#3a3f4b" stroke-width="1.5"/>
+  <circle cx="752" cy="278" r="8" fill="#7c8bff"/>
+
+  <!-- Health: e0,e1 -->
+  <text x="74" y="326" fill="#eceef2" font-size="15" font-family="ui-monospace, monospace">Health</text>
+  <circle cx="392" cy="321" r="8" fill="#7c8bff"/>
+  <circle cx="512" cy="321" r="8" fill="#7c8bff"/>
+  <circle cx="632" cy="321" r="8" fill="none" stroke="#3a3f4b" stroke-width="1.5"/>
+  <circle cx="752" cy="321" r="8" fill="none" stroke="#3a3f4b" stroke-width="1.5"/>
+
+  <!-- System panel -->
+  <rect x="48" y="398" width="470" height="126" rx="14" fill="#141d1a" stroke="#2c3a34"/>
+  <circle cx="74" cy="428" r="5" fill="#4ec9a5"/>
+  <text x="90" y="433" fill="#4ec9a5" font-size="16" font-weight="600" font-family="ui-monospace, monospace">MoveSystem : ISystem</text>
+  <text x="74" y="462" fill="#9aa0ab" font-size="13.5" font-family="ui-monospace, monospace">void update(Registry&amp;) override</text>
+  <text x="74" y="486" fill="#6b7180" font-size="13" font-family="ui-monospace, monospace">for e in Position ∩ Velocity:  pos[e] += vel[e]</text>
+
+  <!-- arrow from system to the arrays it reads -->
+  <path d="M 300 398 C 300 372, 452 372, 452 292" fill="none" stroke="#4ec9a5" stroke-width="2" stroke-dasharray="5 5"/>
+  <path d="M 452 292 l -5 10 l 10 0 z" fill="#4ec9a5"/>
+  <text x="330" y="360" fill="#4ec9a5" font-size="11.5" font-family="ui-monospace, monospace">iterates</text>
+
+  <!-- legend -->
+  <circle cx="566" cy="420" r="7" fill="#7c8bff"/>
+  <text x="580" y="425" fill="#9aa0ab" font-size="13" font-family="ui-monospace, monospace">has component</text>
+  <circle cx="566" cy="450" r="7" fill="none" stroke="#3a3f4b" stroke-width="1.5"/>
+  <text x="580" y="455" fill="#9aa0ab" font-size="13" font-family="ui-monospace, monospace">empty (sparse)</text>
+</svg>

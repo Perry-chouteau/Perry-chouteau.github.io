@@ -1,0 +1,54 @@
+---
+/*
+ * Lightbox global, rendu UNE fois dans le layout. Il n'a aucune connaissance
+ * des images : n'importe quel element portant [data-lightbox] + data-full
+ * l'ouvre (delegation d'evenement sur le document). Ajouter une galerie ne
+ * demande donc rien ici.
+ *
+ * Fermeture : un clic n'importe ou (l'overlay couvre l'image comprise) ou Echap.
+ */
+---
+
+<div
+  id="lightbox"
+  role="dialog"
+  aria-modal="true"
+  aria-hidden="true"
+  class="fixed inset-0 z-50 hidden cursor-zoom-out items-center justify-center bg-black/85 p-4 backdrop-blur-sm sm:p-8"
+>
+  <img id="lightbox-img" src="" alt="" class="max-h-full max-w-full rounded-lg object-contain shadow-2xl" />
+</div>
+
+<script>
+  const box = document.getElementById('lightbox') as HTMLDivElement;
+  const img = document.getElementById('lightbox-img') as HTMLImageElement;
+
+  const open = (src: string, alt: string) => {
+    img.src = src;
+    img.alt = alt;
+    box.classList.replace('hidden', 'flex');
+    box.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  };
+
+  const close = () => {
+    box.classList.replace('flex', 'hidden');
+    box.setAttribute('aria-hidden', 'true');
+    img.removeAttribute('src');
+    document.body.style.overflow = '';
+  };
+
+  document.addEventListener('click', (e) => {
+    const trigger = (e.target as HTMLElement).closest<HTMLElement>('[data-lightbox]');
+    if (trigger?.dataset.full) {
+      open(trigger.dataset.full, trigger.dataset.alt ?? '');
+      return;
+    }
+    /* Overlay ouvert : tout clic dedans (image incluse) ferme. */
+    if (box.classList.contains('flex') && box.contains(e.target as Node)) close();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && box.classList.contains('flex')) close();
+  });
+</script>

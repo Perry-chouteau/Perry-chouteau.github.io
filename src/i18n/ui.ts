@@ -16,9 +16,10 @@ export const ui = {
   statusArchived: { fr: 'Archivé', en: 'Archived' },
 
   projects: { fr: 'Projets', en: 'Projects' },
+  projectsFull: { fr: 'Projets & organisations', en: 'Projects & organisations' },
   projectsLead: {
-    fr: 'Ce que je construis quand personne ne me le demande. Certains tournent, un est mort — je montre le travail, pas seulement les succès.',
-    en: "What I build when nobody's asking. Some run, one is dead — I show the work, not just the wins.",
+    fr: 'Une liste d’organisations et de projets dont je suis fier. Les projets sont des solutions monolithiques ; les organisations, plus élaborées, regroupent plusieurs dépôts autour d’un même écosystème.',
+    en: 'A list of organisations and projects I am proud of. Projects are monolithic solutions; organisations, more elaborate, gather several repositories around a single ecosystem.',
   },
   experience: { fr: 'Expérience', en: 'Experience' },
   education: { fr: 'Formation', en: 'Education' },

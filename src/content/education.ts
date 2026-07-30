@@ -20,7 +20,7 @@ export const education: Education[] = [
         fr: "Expert en ingénierie logicielle. Cinq ans d'expérience, à travers produits, systèmes et infrastructure",
         en: 'Expert in software engineering. Five years of experience, across products, systems and infrastructure',
       },
-      stack: ['c/cpp', 'git', 'flutter', 'typescript', 'ci/cd', 'docker', 'kubernetes', 'microservices', 'iac', 'sql', 'network', 'crossplatform', 'golang'],
+      stack: ['cpp', 'c', 'git', 'flutter', 'typescript', 'cicd', 'docker', 'kubernetes', 'microservices', 'iac', 'sql', 'network', 'crossplatform', 'go'],
     },
     {
       id: 'keimyung',
@@ -32,6 +32,6 @@ export const education: Education[] = [
         fr: 'Un an en Corée du Sud, spécialisation en physique et infographie.',
         en: 'A year in South Korea, specialising in computer physics & graphics.',
       },
-      stack: ['game development', 'graphics', 'physics'],
+      stack: ['gamedev', 'graphics', 'physics'],
     },
 ];

@@ -34,6 +34,9 @@ export const LABELS: Record<string, string | I18nText> = {
   'github-actions': 'GitHub Actions',
   'gitlab-ci': 'GitLab CI',
   nginx: 'nginx',
+  helm: 'Helm',
+  cilium: 'Cilium',
+  secrets: { fr: 'Secrets', en: 'Secrets' },
 
   postgres: 'Postgres',
   redis: 'Redis',
@@ -63,6 +66,16 @@ export const LABELS: Record<string, string | I18nText> = {
   geometry: { fr: 'Géométrie 3D', en: '3D geometry' },
   graphics: { fr: 'Infographie', en: 'Computer graphics' },
   android: 'Android',
+
+  cpp1120: 'C++11/20',
+  cicd: 'CI/CD',
+  microservices: 'Microservices',
+  iac: 'IaC',
+  sql: 'SQL',
+  network: { fr: 'Réseau', en: 'Networking' },
+  crossplatform: { fr: 'Cross-platform', en: 'Cross-platform' },
+  gamedev: { fr: 'Game dev', en: 'Game dev' },
+  physics: { fr: 'Physique', en: 'Physics' },
 };
 
 export type SkillGroup = {

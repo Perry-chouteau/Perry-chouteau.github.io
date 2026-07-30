@@ -1,10 +1,22 @@
 ---
-import { Image } from 'astro:assets';
+import { Image, getImage } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import { byOrientation } from '../lib/media';
 
 type Props = { images: ImageMetadata[]; alt: string };
 const { images, alt } = Astro.props;
+
+/*
+ * Version haute-resolution servie au lightbox (clic pour agrandir). On plafonne
+ * a la taille native pour ne jamais suragrandir une petite photo.
+ */
+const fullOf = new Map<ImageMetadata, string>();
+await Promise.all(
+  images.map(async (img) => {
+    const r = await getImage({ src: img, width: Math.min(1600, img.width), format: 'webp', quality: 82 });
+    fullOf.set(img, r.src);
+  }),
+);
 
 /*
  * Portrait d'abord, paysage ensuite. Chaque groupe a SON ratio, donc toutes
@@ -26,8 +38,11 @@ const groups = [
       <div class:list={['grid gap-4', group.cols]}>
         {group.images.map((img, i) => (
           <figure
+            data-lightbox
+            data-full={fullOf.get(img)}
+            data-alt={`${alt} — ${i + 1}`}
             class:list={[
-              'overflow-hidden rounded-card border border-line-soft bg-surface',
+              'cursor-zoom-in overflow-hidden rounded-card border border-line-soft bg-surface',
               group.ratio,
             ]}
           >

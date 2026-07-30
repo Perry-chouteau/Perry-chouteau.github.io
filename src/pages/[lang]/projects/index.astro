@@ -2,7 +2,7 @@
 import { ArrowUpRight } from 'lucide-react';
 import Base from '../../../layouts/Base.astro';
 import { Stack, StatusBadge } from '../../../components/entries/shared';
-import { projects, smallProjects, contextOf } from '../../../content';
+import { projects, contextOf } from '../../../content';
 import { LANGS, t } from '../../../i18n/config';
 import { ui } from '../../../i18n/ui';
 import { formatRange } from '../../../lib/cn';
@@ -24,18 +24,17 @@ const standalone = projects.filter((p) => !p.org);
 const sections = [
   { id: 'organisations', label: ui.navOrgs },
   ...(standalone.length ? [{ id: 'standalone', label: ui.navStandalone }] : []),
-  ...(smallProjects.length ? [{ id: 'mini', label: ui.navMini }] : []),
 ];
 ---
 
 <Base
   lang={lang}
   sections={sections}
-  title={`${t(ui.projects, lang)} — Perry Chouteau`}
+  title={`${t(ui.projectsFull, lang)} — Perry Chouteau`}
   description={t(ui.projectsLead, lang)}
 >
   <section class="py-16">
-    <h1 class="text-4xl font-bold tracking-tight sm:text-5xl">{t(ui.projects, lang)}</h1>
+    <h1 class="text-4xl font-bold tracking-tight sm:text-5xl">{t(ui.projectsFull, lang)}</h1>
     <p class="mt-4 max-w-2xl text-lg leading-relaxed text-ink-dim">{t(ui.projectsLead, lang)}</p>
   </section>
 
@@ -113,41 +112,4 @@ const sections = [
     )
   }
 
-  {/* --- Mini projets : une ligne, un lien, pas de page. --- */}
-  {
-    smallProjects.length > 0 && (
-      <section id="mini" class="scroll-mt-20 border-t border-line-soft py-14">
-        <h2 class="text-2xl font-bold tracking-tight sm:text-3xl">{t(ui.smallTitle, lang)}</h2>
-        <p class="mt-2 max-w-2xl text-ink-dim">{t(ui.smallLead, lang)}</p>
-
-        <ul class="mt-8 divide-y divide-line-soft">
-          {smallProjects.map((p) => (
-            <li class="py-5">
-              <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                <h3 class="font-semibold text-ink">{p.name}</h3>
-                <span class="font-mono text-xs text-ink-faint">{p.year}</span>
-                {p.url && (
-                  <a
-                    href={p.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    class="ml-auto inline-flex items-center gap-1 text-[0.8125rem] font-medium text-[var(--accent)] hover:underline"
-                  >
-                    GitHub
-                    <ArrowUpRight className="size-3.5" />
-                  </a>
-                )}
-              </div>
-              <p class="mt-1.5 max-w-2xl text-[0.9375rem] leading-relaxed text-ink-dim">
-                {t(p.blurb, lang)}
-              </p>
-              <div class="mt-3">
-                <Stack stack={p.stack} lang={lang} />
-              </div>
-            </li>
-          ))}
-        </ul>
-      </section>
-    )
-  }
 </Base>

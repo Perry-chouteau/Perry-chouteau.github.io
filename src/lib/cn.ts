@@ -20,6 +20,8 @@ export const formatDate = (value: string, lang: Lang) => {
  * laisse croire que ca s'est arrete la : il faut un "— Aujourd'hui" explicite.
  */
 export const formatRange = (date: { start: string; end?: string }, lang: Lang) => {
+  /* Debut == fin : un projet court (une semaine), pas une plage. Un seul point. */
+  if (date.end === date.start) return formatDate(date.start, lang);
   const end = date.end ? formatDate(date.end, lang) : t(ui.present, lang);
   return `${formatDate(date.start, lang)} — ${end}`;
 };

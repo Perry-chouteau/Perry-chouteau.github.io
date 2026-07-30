@@ -22,8 +22,8 @@ export const projects: Project[] = [
       en: 'A modular C++ SDK, without a single external dependency. Still a building site.',
     },
     summary: {
-      fr: "Un écosystème C++ bâti sur des interfaces : le jeu ne connaît jamais son moteur de rendu. Deux briques sont finies, testées et documentées — le reste est en chantier, et je le dis.",
-      en: 'A C++ ecosystem built on interfaces: the game never knows its render backend. Two pieces are done, tested and documented — the rest is a building site, and I say so.',
+      fr: "Un écosystème C++ bâti sur des interfaces : le jeu ne connaît jamais son moteur de rendu. Deux briques sont finies, testées et documentées ; le reste est en chantier.",
+      en: 'A C++ ecosystem built on interfaces: the game never knows its render backend. Two pieces are done, tested and documented; the rest is a building site.',
     },
     stack: ['cpp', 'cmake', 'github-actions', 'gtest', 'latex', 'raylib', 'sfml'],
     links: [
@@ -69,8 +69,8 @@ export const projects: Project[] = [
       {
         heading: { fr: 'Où je veux aller', en: 'Where I want to take it' },
         body: {
-          fr: "Une architecture à la Blender : n'importe qui implémente une interface de façon statique, puis charge son implémentation dynamiquement. L'idée est là, le code propre qui me convienne n'y est pas encore — je n'ai pas eu le temps, et je préfère laisser en chantier que livrer un truc bancal.",
-          en: 'A Blender-style architecture: anyone implements an interface statically, then loads their implementation dynamically. The idea is there, the clean code I would be happy with is not — I have not had the time, and I would rather leave it a building site than ship something wobbly.',
+          fr: "Une architecture à la Blender : n'importe qui implémente une interface de façon statique, puis charge son implémentation dynamiquement.",
+          en: 'A Blender-style architecture: anyone implements an interface statically, then loads their implementation dynamically.',
         },
       },
     ],
@@ -102,7 +102,7 @@ export const projects: Project[] = [
           en: 'Compile-time internationalisation.',
         },
         dir: 'projects/p-e-r-r-y/i18n',
-        stack: ['cpp', 'cxx11/20', 'cmake'],
+        stack: ['cpp1120', 'cmake'],
         links: [
           { label: 'Documentation', url: 'https://p-e-r-r-y.github.io/i18n/', type: 'doc' },
           { label: 'Repository', url: 'https://github.com/p-e-r-r-y/i18n', type: 'repo' },
@@ -141,8 +141,8 @@ export const projects: Project[] = [
     featured: true,
     date: { start: '2025-01' },
     tagline: {
-      fr: 'Ma micro-entreprise, et l’infrastructure qui la fait tourner. Ce site est dessus.',
-      en: 'My one-person company, and the infrastructure that runs it. This site is on it.',
+      fr: 'Mon entreprise : des SaaS, quelques sites clients, et l’infrastructure qui les fait tourner. Ce site tourne dessus.',
+      en: 'My company: SaaS products, a few client sites, and the infrastructure that runs them. This site runs on it.',
     },
     summary: {
       fr: "Vocal30 est le nom sous lequel passe tout mon travail de dev, DevOps, cloud native et webapp. Concrètement, c'est aussi un cluster Kubernetes self-hosted que je gère de bout en bout : je build, je pousse sur ma propre registry hébergée sur le cluster, et Kubernetes récupère l'image de là. Aucun service managé.",
@@ -151,9 +151,20 @@ export const projects: Project[] = [
     /* Pas de 'linux' : Kubernetes, Podman et Traefik tournent tous dessus par
        definition. Le lister n'ajoute rien, ca dilue. Sur kernel-otp en
        revanche il veut dire quelque chose : un LKM, c'est Linux et rien d'autre. */
-    stack: ['kubernetes', 'podman', 'github-actions', 'traefik', 'certmanager', 'registry'],
-    links: [{ label: 'github.com/Vocal30', url: 'https://github.com/Vocal30', type: 'repo' }],
+    stack: ['kubernetes', 'podman', 'helm', 'traefik', 'certmanager', 'registry', 'cilium', 'postgres', 'secrets', 'github-actions'],
+    links: [
+      { label: 'gonesboard.games', url: 'https://gonesboard.games', type: 'live' },
+      { label: 'vocal30.com', url: 'https://vocal30.com', type: 'live' },
+      { label: 'github.com/Vocal30', url: 'https://github.com/Vocal30', type: 'repo' },
+    ],
     blocks: [
+      {
+        heading: { fr: 'Ce qui tourne dessus', en: 'What runs on it' },
+        bullets: [
+          { fr: 'gonesboard.games — Next.js / React.', en: 'gonesboard.games — Next.js / React.' },
+          { fr: 'vocal30.com — Vite / React.', en: 'vocal30.com — Vite / React.' },
+        ],
+      },
       {
         heading: { fr: 'La chaîne', en: 'The chain' },
         bullets: [
@@ -185,7 +196,7 @@ export const projects: Project[] = [
         ],
       },
       {
-        heading: { fr: 'Ce portfolio est déployer sur le cluster', en: 'Ce portfolio est déployer sur le cluster' },
+        heading: { fr: 'Ce portfolio tourne sur le cluster', en: 'This portfolio runs on the cluster' },
         body: {
           fr: 'Le site que tu lis est une image nginx non-root de 56 Mo déployée sur ce cluster. Aucun runtime Node en production : le HTML est généré au build, nginx ne fait que servir des fichiers.',
           en: 'The site you are reading is a 56 MB non-root nginx image deployed on that cluster. No Node runtime in production: the HTML is generated at build time, nginx only serves files.',
@@ -246,8 +257,8 @@ export const projects: Project[] = [
       {
         heading: { fr: 'Pourquoi le code est fermé', en: 'Why the code is closed' },
         body: {
-          fr: 'Antisèche est un produit destiné à être vendu. Le dépôt reste privé : c’est un choix, pas un oubli.',
-          en: 'Antisèche is a product meant to be sold. The repository stays private: that is a choice, not an oversight.',
+          fr: 'Antisèche est un produit destiné à être vendu. Le dépôt reste privé.',
+          en: 'Antisèche is a product meant to be sold. The repository stays private.',
         },
       },
     ],
@@ -263,12 +274,12 @@ export const projects: Project[] = [
     status: 'archived',
     date: { start: '2023-01', end: '2025-12' },
     tagline: {
-      fr: 'Une alternative aux réseaux sociaux. Arrêtée — mais je l’ai menée jusqu’au bout.',
-      en: 'An alternative to social networks. Shut down — but I took it all the way.',
+      fr: 'Une alternative aux réseaux sociaux : à court d’idées, elle vous suggère quoi faire pour vous occuper — même coincé dans le métro.',
+      en: 'An alternative to social networks: out of ideas, it suggests things to do to keep you busy — even stuck on the subway.',
     },
     summary: {
-      fr: 'Une application mobile Flutter avec backend TypeScript sur Azure, pensée comme une vraie alternative aux réseaux sociaux. Le projet est mort, le travail reste.',
-      en: 'A Flutter mobile app with a TypeScript backend on Azure, built as a real alternative to social networks. The project is dead, the work remains.',
+      fr: 'Une application mobile Flutter avec backend TypeScript sur Azure, pensée comme une vraie alternative aux réseaux sociaux.',
+      en: 'A Flutter mobile app with a TypeScript backend on Azure, built as a real alternative to social networks.',
     },
     stack: ['flutter', 'dart', 'typescript', 'azure'],
     /* Le site et quelques POC sont prives, mais l'essentiel est public. */
@@ -347,10 +358,10 @@ export const projects: Project[] = [
     title: { fr: 'Kernel OTP', en: 'Kernel OTP' },
     context: 'logiciel',
     status: 'source',
-    date: { start: '2024-01', end: '2025-02' },
+    date: { start: '2025-02', end: '2025-02' },
     tagline: {
-      fr: 'Un générateur d’OTP qui vit dans le noyau Linux, pas dans l’espace utilisateur.',
-      en: 'An OTP generator living in the Linux kernel, not in user space.',
+      fr: 'Un module noyau Linux qui expose un device pour générer des OTP (codes à usage unique). Paramétrable : timeout, clé client, algorithme.',
+      en: 'A Linux kernel module exposing a device that generates OTPs (one-time codes). Tunable: timeout, client key, algorithm.',
     },
     summary: {
       fr: 'Un module noyau chargeable qui expose un device caractère : un cat /dev/otp renvoie un code à usage unique. Paramétrable à chaud via SysFS.',
@@ -379,6 +390,50 @@ export const projects: Project[] = [
         ],
       },
       /* TODO Perry : bloc "Le contexte" — projet Epitech, les 13 commits sont les tiens. */
+    ],
+  },
+
+  {
+    id: 'launcher-signals',
+    title: { fr: 'my_32bits_launcher-using-signals', en: 'my_32bits_launcher-using-signals' },
+    context: 'logiciel',
+    status: 'source',
+    date: { start: '2021-01', end: '2021-01' },
+    tagline: {
+      fr: 'Deux instances qui se parlent sur une même machine Linux, uniquement par signaux.',
+      en: 'Two instances talking to each other on one Linux machine, purely through signals.',
+    },
+    summary: {
+      fr: 'Deux instances qui communiquent sur une même machine Linux uniquement via les signaux Unix.',
+      en: 'Two instances communicating on one Linux machine purely through Unix signals.',
+    },
+    stack: ['c', 'linux'],
+    links: [
+      {
+        label: 'my_32bits_launcher-using-signals',
+        url: 'https://github.com/Perry-chouteau/my_32bits_launcher-using-signals',
+        type: 'repo',
+      },
+    ],
+  },
+
+  {
+    id: 'pushswap',
+    title: { fr: 'my_pushswap', en: 'my_pushswap' },
+    context: 'logiciel',
+    status: 'source',
+    date: { start: '2021-01', end: '2021-01' },
+    tagline: {
+      fr: 'Un tri par base (radix sort) sur deux piles — compact, malin, efficace.',
+      en: 'A radix sort over two stacks — compact, clever, efficient.',
+    },
+    summary: {
+      fr: 'Trier une pile avec un jeu d’instructions minimal, via un tri par base (radix sort) sur deux piles.',
+      en: 'Sorting a stack with a minimal instruction set, using a radix sort over two stacks.',
+    },
+    stack: ['c'],
+    links: [
+      { label: 'my_pushswap', url: 'https://github.com/Perry-chouteau/my_pushswap', type: 'repo' },
     ],
   },
 ];

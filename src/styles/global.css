@@ -15,6 +15,9 @@
   --color-bg: oklch(0.17 0.008 250);
   --color-surface: oklch(0.21 0.009 250);
   --color-surface-hi: oklch(0.25 0.01 250);
+  /* Fond de puce translucide : eclaircit ce qu'il y a dessous, sur n'importe
+     quel fond (page ou carte). Adaptatif par theme. */
+  --color-chip: oklch(1 0 0 / 0.07);
 
   --color-line: oklch(0.3 0.009 250);
   --color-line-soft: oklch(0.25 0.008 250);
@@ -42,6 +45,7 @@
   --color-bg: oklch(0.99 0.002 250);
   --color-surface: oklch(0.975 0.003 250);
   --color-surface-hi: oklch(0.95 0.004 250);
+  --color-chip: oklch(0 0 0 / 0.05);
 
   --color-line: oklch(0.88 0.005 250);
   --color-line-soft: oklch(0.93 0.004 250);

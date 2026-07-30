@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 600" width="1760" height="1200" font-family="ui-sans-serif, system-ui, 'Segoe UI', Roboto, sans-serif">
+  <rect width="880" height="600" fill="#13151a"/>
+
+  <!-- header -->
+  <text x="48" y="70" fill="#7c8bff" font-size="44" font-weight="700">igraphic</text>
+  <text x="222" y="70" fill="#9aa0ab" font-size="18" font-family="ui-monospace, monospace">one interface, many backends</text>
+  <text x="48" y="98" fill="#6b7180" font-size="14" font-family="ui-monospace, monospace">dynamic modules · dll / .so · swap backend, no recompile</text>
+
+  <!-- App box -->
+  <rect x="48" y="164" width="156" height="96" rx="12" fill="#1c1f27" stroke="#2b2f3a"/>
+  <text x="68" y="196" fill="#eceef2" font-size="15" font-weight="600" font-family="ui-monospace, monospace">App</text>
+  <text x="68" y="220" fill="#9aa0ab" font-size="11.5" font-family="ui-monospace, monospace">knows only the</text>
+  <text x="68" y="236" fill="#9aa0ab" font-size="11.5" font-family="ui-monospace, monospace">interface</text>
+
+  <!-- arrow App -> interface -->
+  <line x1="204" y1="212" x2="248" y2="212" stroke="#4b5160" stroke-width="2"/>
+  <polygon points="256,212 246,207 246,217" fill="#4b5160"/>
+  <text x="206" y="204" fill="#6b7180" font-size="10.5" font-family="ui-monospace, monospace">uses</text>
+
+  <!-- IGraphicModule interface -->
+  <rect x="256" y="140" width="576" height="192" rx="16" fill="#1c1f27" stroke="#333a49"/>
+  <text x="280" y="174" fill="#7c8bff" font-size="17" font-weight="700" font-family="ui-monospace, monospace">IGraphicModule : IModule</text>
+  <text x="600" y="174" fill="#6b7180" font-size="12" font-family="ui-monospace, monospace">«interface»</text>
+  <text x="280" y="196" fill="#6b7180" font-size="11.5" font-family="ui-monospace, monospace">factory of graphic primitives  ·  create…() = 0</text>
+
+  <!-- family rows -->
+  <g font-family="ui-monospace, monospace">
+    <text x="280" y="228" fill="#e0a458" font-size="12.5">Window</text>
+    <text x="372" y="228" fill="#c7ccd6" font-size="12.5">IWindow · ICamera</text>
+
+    <text x="280" y="252" fill="#e0a458" font-size="12.5">Graphic</text>
+    <text x="372" y="252" fill="#c7ccd6" font-size="12.5">IModel · ISprite · IPolygon · IText</text>
+
+    <text x="280" y="276" fill="#e0a458" font-size="12.5">Audio</text>
+    <text x="372" y="276" fill="#c7ccd6" font-size="12.5">ISound · IMusic</text>
+
+    <text x="280" y="300" fill="#e0a458" font-size="12.5">Event</text>
+    <text x="372" y="300" fill="#c7ccd6" font-size="12.5">IKeyboard · IMouse</text>
+  </g>
+
+  <!-- implementations -->
+  <rect x="256" y="404" width="278" height="128" rx="14" fill="#1c1f27" stroke="#2b2f3a"/>
+  <text x="278" y="434" fill="#eceef2" font-size="15" font-weight="600" font-family="ui-monospace, monospace">RayGraphic</text>
+  <text x="278" y="456" fill="#6b7180" font-size="11.5" font-family="ui-monospace, monospace">implements IGraphicModule</text>
+  <rect x="278" y="470" width="76" height="26" rx="8" fill="#20242e" stroke="#333a49"/>
+  <text x="316" y="487" fill="#9aa0ab" font-size="12" font-family="ui-monospace, monospace" text-anchor="middle">raylib</text>
+  <text x="366" y="487" fill="#4ec9a5" font-size="12" font-family="ui-monospace, monospace">raygraphic.so</text>
+
+  <rect x="554" y="404" width="278" height="128" rx="14" fill="#1c1f27" stroke="#2b2f3a"/>
+  <text x="576" y="434" fill="#eceef2" font-size="15" font-weight="600" font-family="ui-monospace, monospace">SFMLGraphic</text>
+  <text x="576" y="456" fill="#6b7180" font-size="11.5" font-family="ui-monospace, monospace">implements IGraphicModule</text>
+  <rect x="576" y="470" width="64" height="26" rx="8" fill="#20242e" stroke="#333a49"/>
+  <text x="608" y="487" fill="#9aa0ab" font-size="12" font-family="ui-monospace, monospace" text-anchor="middle">sfml</text>
+  <text x="652" y="487" fill="#4ec9a5" font-size="12" font-family="ui-monospace, monospace">sfmlgraphic.so</text>
+
+  <!-- dlopen arrows impl -> interface (hollow triangle = implements) -->
+  <line x1="395" y1="404" x2="395" y2="340" stroke="#4b5160" stroke-width="1.8" stroke-dasharray="6 5"/>
+  <polygon points="395,332 388,346 402,346" fill="#13151a" stroke="#5b6270" stroke-width="1.6"/>
+  <line x1="693" y1="404" x2="693" y2="340" stroke="#4b5160" stroke-width="1.8" stroke-dasharray="6 5"/>
+  <polygon points="693,332 686,346 700,346" fill="#13151a" stroke="#5b6270" stroke-width="1.6"/>
+
+  <text x="440" y="372" fill="#6b7180" font-size="11.5" font-family="ui-monospace, monospace">loaded at runtime · dlopen</text>
+
+  <!-- footer note -->
+  <text x="256" y="566" fill="#9aa0ab" font-size="13" font-family="ui-monospace, monospace">The app links the interface, not the backend — pick raylib or sfml at load time.</text>
+</svg>

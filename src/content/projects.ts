@@ -159,13 +159,6 @@ export const projects: Project[] = [
     ],
     blocks: [
       {
-        heading: { fr: 'Ce qui tourne dessus', en: 'What runs on it' },
-        bullets: [
-          { fr: 'gonesboard.games — Next.js / React.', en: 'gonesboard.games — Next.js / React.' },
-          { fr: 'vocal30.com — Vite / React.', en: 'vocal30.com — Vite / React.' },
-        ],
-      },
-      {
         heading: { fr: 'La chaîne', en: 'The chain' },
         bullets: [
           {
@@ -183,31 +176,79 @@ export const projects: Project[] = [
         ],
       },
       {
-        heading: { fr: 'Le cluster', en: 'The cluster' },
-        bullets: [
-          {
-            fr: 'Kubernetes self-hosted sur Contabo.',
-            en: 'Self-hosted Kubernetes on Contabo.',
-          },
-          {
-            fr: 'Traefik en ingress, TLS automatique via CertManager.',
-            en: 'Traefik as ingress, automatic TLS through CertManager.',
-          },
-        ],
-      },
-      {
-        heading: { fr: 'Ce portfolio tourne sur le cluster', en: 'This portfolio runs on the cluster' },
-        body: {
-          fr: 'Le site que tu lis est une image nginx non-root de 56 Mo déployée sur ce cluster. Aucun runtime Node en production : le HTML est généré au build, nginx ne fait que servir des fichiers.',
-          en: 'The site you are reading is a 56 MB non-root nginx image deployed on that cluster. No Node runtime in production: the HTML is generated at build time, nginx only serves files.',
-        },
-      },
-      {
         heading: { fr: 'La suite', en: "What's next" },
         body: {
           fr: 'FluxCD et l’automatisation de mise à jour d’images, pour du GitOps complet où le cluster va chercher lui-même les nouvelles versions. Pas encore en place.',
           en: 'FluxCD and image update automation, for full GitOps where the cluster picks up new versions on its own. Not in place yet.',
         },
+      },
+    ],
+    /*
+     * Comme P-E-R-R-Y : chaque chose qui tourne sur le cluster est une brique,
+     * pas une simple capture. Sa capture vit dans media/projects/vocal30/<brique>/.
+     */
+    subprojects: [
+      {
+        id: 'portfolio',
+        title: 'portfolio',
+        summary: {
+          fr: 'Ce site. Astro, servi en nginx non-root sur le cluster.',
+          en: 'This site. Astro, served by non-root nginx on the cluster.',
+        },
+        dir: 'projects/vocal30/portfolio-site',
+        stack: ['astro', 'nginx', 'podman'],
+        links: [{ label: 'perrychouteau.com', url: 'https://perrychouteau.com', type: 'live' }],
+        blocks: [
+          {
+            heading: { fr: 'Une image de 56 Mo', en: 'A 56 MB image' },
+            body: {
+              fr: 'Aucun runtime Node en production : le HTML est généré au build, nginx ne fait que servir des fichiers. Image non-root, déployée sur le cluster comme le reste.',
+              en: 'No Node runtime in production: the HTML is generated at build time, nginx only serves files. Non-root image, deployed on the cluster like everything else.',
+            },
+          },
+        ],
+      },
+      {
+        id: 'vocal30-com',
+        title: 'vocal30.com',
+        summary: { fr: 'Le site vitrine. Vite / React.', en: 'The showcase site. Vite / React.' },
+        dir: 'projects/vocal30/vocal30-com',
+        stack: ['vite', 'react', 'typescript'],
+        links: [{ label: 'vocal30.com', url: 'https://vocal30.com', type: 'live' }],
+      },
+      {
+        id: 'gonesboard',
+        title: 'gonesboard.games',
+        summary: { fr: 'Application de jeu. Next.js / React.', en: 'Game app. Next.js / React.' },
+        dir: 'projects/vocal30/gonesboard',
+        stack: ['nextjs', 'react', 'typescript'],
+        links: [{ label: 'gonesboard.games', url: 'https://gonesboard.games', type: 'live' }],
+      },
+      {
+        id: 'cluster',
+        title: 'cluster',
+        summary: {
+          fr: 'Le Kubernetes self-hosted qui fait tourner tout le reste.',
+          en: 'The self-hosted Kubernetes running everything else.',
+        },
+        dir: 'projects/vocal30/cluster',
+        stack: ['kubernetes', 'traefik', 'certmanager', 'cilium', 'registry'],
+        blocks: [
+          {
+            heading: { fr: 'Le cluster', en: 'The cluster' },
+            bullets: [
+              { fr: 'Kubernetes self-hosted sur Contabo.', en: 'Self-hosted Kubernetes on Contabo.' },
+              {
+                fr: 'Traefik en ingress, TLS automatique via CertManager.',
+                en: 'Traefik as ingress, automatic TLS through CertManager.',
+              },
+              {
+                fr: 'Ma propre registry Docker hébergée sur le cluster : je build, je pousse, Kubernetes tire de là. Aucun service managé.',
+                en: 'My own Docker registry hosted on the cluster: I build, I push, Kubernetes pulls from there. No managed service.',
+              },
+            ],
+          },
+        ],
       },
     ],
   },
@@ -292,6 +333,10 @@ export const projects: Project[] = [
       { label: 'admin-panel', url: 'https://github.com/EIP-GetOut/admin-panel', type: 'repo' },
       { label: 'states', url: 'https://github.com/EIP-GetOut/states', type: 'repo' },
     ],
+    media: [
+      { src: 'projects/getout/getout-screens.png', caption: { fr: 'L’application — films, livres, fiches détaillées', en: 'The app — films, books, detail pages' } },
+      { src: 'projects/getout/getout-design.png', caption: { fr: 'Le design complet, sous Figma', en: 'The full design, in Figma' } },
+    ],
     blocks: [
       /* TODO Perry : bloc "L'idee" — ce que GETOUT proposait de different. */
       {
@@ -328,27 +373,55 @@ export const projects: Project[] = [
     },
     stack: ['go', 'git'],
     links: [{ label: 'github.com/PC-Toolbox', url: 'https://github.com/PC-Toolbox', type: 'repo' }],
-    blocks: [
+    /*
+     * Les quatre outils, presentes comme des briques (comme P-E-R-R-Y). Chacun
+     * montre son usage : vsc_ws a des captures ; les trois CLI ont une image
+     * "terminal" generee depuis leur VRAIE sortie --help (media/<tool>/).
+     */
+    subprojects: [
       {
-        heading: { fr: 'Les outils', en: 'The tools' },
-        bullets: [
-          {
-            fr: 'vsc_ws — édite le workspace VSCode pour afficher ou masquer des projets à la volée.',
-            en: 'vsc_ws — edits the VSCode workspace to show or hide projects on the fly.',
-          },
-          {
-            fr: 'ghp — création et suppression rapides de dépôts GitHub, pour une org avec beaucoup de sous-modules.',
-            en: 'ghp — fast GitHub repo creation and deletion, for an org with many submodules.',
-          },
-          {
-            fr: 'openurl — raccourcis vers les pages où je retourne sans arrêt.',
-            en: 'openurl — shortcuts to the pages I keep going back to.',
-          },
-          {
-            fr: 'PLD-Maker — génère les PLD de reporting pour GETOUT.',
-            en: 'PLD-Maker — generates the PLD reporting documents for GETOUT.',
-          },
-        ],
+        id: 'vsc_ws',
+        title: 'vsc_ws',
+        summary: {
+          fr: 'Édite le workspace VSCode pour afficher ou masquer des projets à la volée.',
+          en: 'Edits the VSCode workspace to show or hide projects on the fly.',
+        },
+        dir: 'projects/pc-toolbox/vsc_ws',
+        stack: ['go'],
+        links: [{ label: 'PC-Toolbox/vsc_ws', url: 'https://github.com/PC-Toolbox/vsc_ws', type: 'repo' }],
+      },
+      {
+        id: 'ghp',
+        title: 'ghp',
+        summary: {
+          fr: 'Création et suppression rapides de dépôts GitHub, pour une org à nombreux sous-modules.',
+          en: 'Fast GitHub repo creation and deletion, for an org with many submodules.',
+        },
+        dir: 'projects/pc-toolbox/ghp',
+        stack: ['go'],
+        links: [{ label: 'PC-Toolbox/ghp', url: 'https://github.com/PC-Toolbox/ghp', type: 'repo' }],
+      },
+      {
+        id: 'openurl',
+        title: 'openurl',
+        summary: {
+          fr: 'Raccourcis vers les pages où je retourne sans arrêt.',
+          en: 'Shortcuts to the pages I keep going back to.',
+        },
+        dir: 'projects/pc-toolbox/openurl',
+        stack: ['go'],
+        links: [{ label: 'PC-Toolbox/openurl', url: 'https://github.com/PC-Toolbox/openurl', type: 'repo' }],
+      },
+      {
+        id: 'pld-maker',
+        title: 'PLD-Maker',
+        summary: {
+          fr: 'Génère les PLD de reporting pour GETOUT.',
+          en: 'Generates the PLD reporting documents for GETOUT.',
+        },
+        dir: 'projects/pc-toolbox/pld-maker',
+        stack: ['go'],
+        links: [{ label: 'PC-Toolbox/PLD-Maker', url: 'https://github.com/PC-Toolbox/PLD-Maker', type: 'repo' }],
       },
     ],
   },
@@ -371,6 +444,7 @@ export const projects: Project[] = [
     links: [
       { label: 'Kernel_OTP', url: 'https://github.com/Perry-chouteau/Kernel_OTP', type: 'repo' },
     ],
+    media: ['projects/kernel-otp/kernel-otp-schema.png'],
     blocks: [
       {
         heading: { fr: 'Ce que ça fait', en: 'What it does' },
@@ -415,6 +489,7 @@ export const projects: Project[] = [
         type: 'repo',
       },
     ],
+    media: ['projects/launcher-signals/signals-schema.png'],
   },
 
   {
@@ -435,6 +510,28 @@ export const projects: Project[] = [
     links: [
       { label: 'my_pushswap', url: 'https://github.com/Perry-chouteau/my_pushswap', type: 'repo' },
     ],
+    media: ['projects/pushswap/radix-sort-schema.png'],
+  },
+
+  {
+    id: 'image-compressor',
+    title: { fr: 'imageCompressor', en: 'imageCompressor' },
+    context: 'logiciel',
+    status: 'source',
+    date: { start: '2023-01', end: '2023-01' },
+    tagline: {
+      fr: 'Compression d’image par k-means, en Haskell — pur et sans état.',
+      en: 'k-means image compression in Haskell — pure and stateless.',
+    },
+    summary: {
+      fr: 'Regroupe les couleurs d’une image en K clusters (k-means) et réduit la palette à K teintes. Parsing, calcul des centroïdes et convergence, le tout en Haskell fonctionnel.',
+      en: 'Groups an image’s colours into K clusters (k-means) and reduces the palette to K shades. Parsing, centroid computation and convergence, all in functional Haskell.',
+    },
+    stack: ['haskell'],
+    links: [
+      { label: 'imageCompressor', url: 'https://github.com/Perry-chouteau/image_compressor', type: 'repo' },
+    ],
+    media: ['projects/image-compressor/kmeans-schema.png'],
   },
 ];
 

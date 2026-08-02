@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 540" width="1760" height="1080" font-family="ui-sans-serif, system-ui, 'Segoe UI', Roboto, sans-serif">
+  <rect width="880" height="540" fill="#13151a"/>
+  <text x="48" y="70" fill="#7c8bff" font-size="38" font-weight="700">imageCompressor</text>
+  <text x="392" y="70" fill="#9aa0ab" font-size="16" font-family="ui-monospace, monospace">k-means colour compression</text>
+  <text x="48" y="98" fill="#6b7180" font-size="14" font-family="ui-monospace, monospace">Haskell · pure · functional — reduce a palette to K colours</text>
+
+  <!-- scatter panel -->
+  <rect x="48" y="126" width="420" height="376" rx="14" fill="#1c1f27" stroke="#2b2f3a"/>
+  <text x="70" y="154" fill="#9aa0ab" font-size="12.5" font-family="ui-monospace, monospace">pixels grouped by colour → K clusters</text>
+
+  <!-- cluster A (reds) -->
+  <circle cx="150" cy="230" r="30" fill="none" stroke="#e0645f" stroke-width="1.3" stroke-dasharray="4 4" opacity="0.5"/>
+  <circle cx="132" cy="222" r="5" fill="#e0645f" opacity="0.7"/>
+  <circle cx="165" cy="216" r="5" fill="#e0645f" opacity="0.7"/>
+  <circle cx="140" cy="245" r="5" fill="#e0645f" opacity="0.7"/>
+  <circle cx="168" cy="242" r="5" fill="#e0645f" opacity="0.7"/>
+  <circle cx="150" cy="230" r="8" fill="#e0645f" stroke="#13151a" stroke-width="2"/>
+
+  <!-- cluster B (greens) -->
+  <circle cx="330" cy="300" r="32" fill="none" stroke="#6fca8f" stroke-width="1.3" stroke-dasharray="4 4" opacity="0.5"/>
+  <circle cx="312" cy="292" r="5" fill="#6fca8f" opacity="0.7"/>
+  <circle cx="346" cy="288" r="5" fill="#6fca8f" opacity="0.7"/>
+  <circle cx="320" cy="316" r="5" fill="#6fca8f" opacity="0.7"/>
+  <circle cx="350" cy="314" r="5" fill="#6fca8f" opacity="0.7"/>
+  <circle cx="330" cy="300" r="8" fill="#6fca8f" stroke="#13151a" stroke-width="2"/>
+
+  <!-- cluster C (blues) -->
+  <circle cx="200" cy="410" r="34" fill="none" stroke="#6f9cff" stroke-width="1.3" stroke-dasharray="4 4" opacity="0.5"/>
+  <circle cx="180" cy="402" r="5" fill="#6f9cff" opacity="0.7"/>
+  <circle cx="216" cy="398" r="5" fill="#6f9cff" opacity="0.7"/>
+  <circle cx="188" cy="426" r="5" fill="#6f9cff" opacity="0.7"/>
+  <circle cx="222" cy="424" r="5" fill="#6f9cff" opacity="0.7"/>
+  <circle cx="200" cy="410" r="8" fill="#6f9cff" stroke="#13151a" stroke-width="2"/>
+
+  <text x="70" y="486" fill="#6b7180" font-size="11.5" font-family="ui-monospace, monospace">● pixel   ◉ centroid = mean colour of its cluster</text>
+
+  <!-- algorithm panel -->
+  <rect x="490" y="126" width="342" height="376" rx="14" fill="#1a1e26" stroke="#333a49"/>
+  <text x="512" y="156" fill="#7c8bff" font-size="15" font-weight="700" font-family="ui-monospace, monospace">k-means</text>
+
+  <g font-family="ui-monospace, monospace" font-size="13">
+    <text x="512" y="196" fill="#e0a458">1</text><text x="536" y="196" fill="#c7ccd6">pick K random centroids</text>
+    <text x="512" y="230" fill="#e0a458">2</text><text x="536" y="230" fill="#c7ccd6">assign each pixel to the</text>
+    <text x="536" y="248" fill="#9aa0ab">nearest centroid (RGB dist)</text>
+    <text x="512" y="282" fill="#e0a458">3</text><text x="536" y="282" fill="#c7ccd6">move centroid = mean colour</text>
+    <text x="512" y="316" fill="#e0a458">4</text><text x="536" y="316" fill="#c7ccd6">repeat until it stops moving</text>
+    <text x="536" y="334" fill="#6b7180" font-size="11.5">(convergence &lt; limit)</text>
+  </g>
+
+  <line x1="512" y1="360" x2="810" y2="360" stroke="#2b2f3a" stroke-width="1"/>
+  <text x="512" y="392" fill="#9aa0ab" font-size="12.5" font-family="ui-monospace, monospace">in  : (x,y) (r,g,b) per pixel</text>
+  <text x="512" y="418" fill="#4ec9a5" font-size="12.5" font-family="ui-monospace, monospace">out : K colours → recoloured</text>
+  <text x="512" y="462" fill="#6b7180" font-size="11.5" font-family="ui-monospace, monospace">Parser · Image (centroids) ·</text>
+  <text x="512" y="480" fill="#6b7180" font-size="11.5" font-family="ui-monospace, monospace">Rand — no mutable state</text>
+</svg>

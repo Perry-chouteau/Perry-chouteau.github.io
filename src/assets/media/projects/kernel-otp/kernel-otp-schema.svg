@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 560" width="1760" height="1120" font-family="ui-sans-serif, system-ui, 'Segoe UI', Roboto, sans-serif">
+  <rect width="880" height="560" fill="#13151a"/>
+  <text x="48" y="70" fill="#7c8bff" font-size="42" font-weight="700">kernel-otp</text>
+  <text x="270" y="70" fill="#9aa0ab" font-size="17" font-family="ui-monospace, monospace">OTP in the Linux kernel</text>
+  <text x="48" y="98" fill="#6b7180" font-size="14" font-family="ui-monospace, monospace">loadable kernel module · char device · live-tunable via SysFS</text>
+
+  <!-- user space -->
+  <rect x="48" y="126" width="784" height="150" rx="14" fill="#1c1f27" stroke="#2b2f3a"/>
+  <text x="72" y="154" fill="#e0a458" font-size="13" font-family="ui-monospace, monospace">USER SPACE</text>
+  <text x="72" y="192" fill="#eceef2" font-size="15" font-family="ui-monospace, monospace">$ cat /dev/otp</text>
+  <rect x="300" y="176" width="110" height="26" rx="7" fill="#132420" stroke="#2c4a40"/>
+  <text x="355" y="194" fill="#4ec9a5" font-size="14" font-family="ui-monospace, monospace" text-anchor="middle">738201</text>
+  <text x="72" y="230" fill="#9aa0ab" font-size="13.5" font-family="ui-monospace, monospace">$ echo 30 &gt; /sys/kernel/otp/timeout</text>
+  <text x="72" y="254" fill="#6b7180" font-size="12.5" font-family="ui-monospace, monospace">timeout · client key · algorithm — changed at runtime, no reload</text>
+
+  <!-- boundary -->
+  <line x1="48" y1="300" x2="832" y2="300" stroke="#333a49" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <text x="440" y="296" fill="#5b6270" font-size="11" font-family="ui-monospace, monospace" text-anchor="middle">syscalls: open · read · write</text>
+
+  <!-- kernel space -->
+  <rect x="48" y="320" width="784" height="180" rx="14" fill="#1a1e26" stroke="#333a49"/>
+  <text x="72" y="348" fill="#7c8bff" font-size="13" font-family="ui-monospace, monospace">KERNEL SPACE</text>
+  <text x="72" y="384" fill="#eceef2" font-size="16" font-weight="600" font-family="ui-monospace, monospace">otp.ko  — Loadable Kernel Module</text>
+  <rect x="72" y="404" width="230" height="72" rx="10" fill="#20242e" stroke="#2b2f3a"/>
+  <text x="88" y="430" fill="#c7ccd6" font-size="13" font-family="ui-monospace, monospace">char device</text>
+  <text x="88" y="452" fill="#9aa0ab" font-size="12" font-family="ui-monospace, monospace">/dev/otp · read()</text>
+  <text x="88" y="469" fill="#6b7180" font-size="11.5" font-family="ui-monospace, monospace">major/minor registered</text>
+  <rect x="322" y="404" width="230" height="72" rx="10" fill="#20242e" stroke="#2b2f3a"/>
+  <text x="338" y="430" fill="#c7ccd6" font-size="13" font-family="ui-monospace, monospace">sysfs attributes</text>
+  <text x="338" y="452" fill="#9aa0ab" font-size="12" font-family="ui-monospace, monospace">/sys/kernel/otp/*</text>
+  <text x="338" y="469" fill="#6b7180" font-size="11.5" font-family="ui-monospace, monospace">timeout · key · algo</text>
+  <rect x="572" y="404" width="238" height="72" rx="10" fill="#20242e" stroke="#2b2f3a"/>
+  <text x="588" y="430" fill="#c7ccd6" font-size="13" font-family="ui-monospace, monospace">two modes</text>
+  <text x="588" y="452" fill="#9aa0ab" font-size="12" font-family="ui-monospace, monospace">loopcode</text>
+  <text x="588" y="469" fill="#9aa0ab" font-size="12" font-family="ui-monospace, monospace">client-key-derived</text>
+
+  <path d="M 150 320 L 150 300" stroke="#4ec9a5" stroke-width="0"/>
+</svg>

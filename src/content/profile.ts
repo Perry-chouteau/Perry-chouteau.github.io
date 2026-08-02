@@ -22,8 +22,8 @@ export const profile = {
   } satisfies I18nText,
 
   pitch: {
-    fr: "C++, Go et cloud native. J'ai livré du code C++ en production chez Dassault Systèmes et du serverless Go sur AWS chez Xo7. Le reste du temps, je construis mes propres outils et Services.",
-    en: "C++, Go and cloud native. I've shipped C++ code in production at Dassault Systèmes and serverless Go on AWS at Xo7. The rest of the time, I build my own tools and services.",
+    fr: "C++, Go et cloud native. De la R&D géométrique en C++ chez Dassault Systèmes, du serverless Go sur AWS chez Xo7, et mes propres outils open-source le reste du temps.",
+    en: 'C++, Go and cloud native. Geometric R&D in C++ at Dassault Systèmes, serverless Go on AWS at Xo7, and my own open-source tools the rest of the time.',
   } satisfies I18nText,
 
   email: 'perry.chouteau@outlook.com',

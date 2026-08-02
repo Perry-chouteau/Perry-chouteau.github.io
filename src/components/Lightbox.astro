@@ -13,10 +13,36 @@
   id="lightbox"
   role="dialog"
   aria-modal="true"
+  aria-label="Aperçu de l'image"
   aria-hidden="true"
-  class="fixed inset-0 z-50 hidden cursor-zoom-out items-center justify-center bg-black/85 p-4 backdrop-blur-sm sm:p-8"
+  class="fixed inset-0 z-50 hidden cursor-zoom-out flex-col items-center justify-center gap-3 bg-black/75 p-4 backdrop-blur-md sm:p-8"
 >
-  <img id="lightbox-img" src="" alt="" class="max-h-full max-w-full rounded-lg object-contain shadow-2xl" />
+  {/* Bouton fermer explicite — l'affordance principale pour sortir. */}
+  <button
+    id="lightbox-close"
+    type="button"
+    aria-label="Fermer l'aperçu"
+    class="absolute right-4 top-4 inline-flex size-10 items-center justify-center rounded-full border border-white/20 bg-black/40 text-white/90 transition-colors hover:bg-black/70 hover:text-white"
+  >
+    <svg viewBox="0 0 24 24" class="size-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <path d="M6 6l12 12M18 6L6 18" />
+    </svg>
+  </button>
+
+  {/* Image contenue (pas plein cadre) : elle se lit comme un aperçu, pas comme un nouvel écran. */}
+  <img
+    id="lightbox-img"
+    src=""
+    alt=""
+    class="max-h-[82vh] max-w-[92vw] rounded-lg border border-white/10 object-contain shadow-2xl"
+  />
+
+  {/* Indice de sortie. */}
+  <p class="pointer-events-none flex select-none items-center gap-1.5 text-xs text-white/55">
+    Cliquer n'importe où ou
+    <kbd class="rounded border border-white/25 px-1.5 py-0.5 font-mono text-[0.65rem] text-white/75">Échap</kbd>
+    pour fermer
+  </p>
 </div>
 
 <script>

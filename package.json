@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "astro dev",
     "check:media": "node scripts/check-media.mjs",
+    "audit:media": "node scripts/audit-media.mjs",
     "build": "node scripts/check-media.mjs && astro build",
     "preview": "astro preview",
     "check": "astro check"

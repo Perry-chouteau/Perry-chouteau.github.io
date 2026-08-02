@@ -1,4 +1,5 @@
 import type { ImageMetadata } from 'astro';
+import { getImage } from 'astro:assets';
 
 /*
  * Un seul glob pour tout le site. import.meta.glob est resolu au BUILD : Vite
@@ -12,6 +13,29 @@ const files = import.meta.glob<{ default: ImageMetadata }>(
 
 const ROOT = '/src/assets/media/';
 const clean = (dir: string) => dir.replace(/^\/+|\/+$/g, '');
+
+/**
+ * Resout un chemin de fichier relatif ('sub/x.jpg') vers l'image optimisable.
+ * Echec au BUILD si absent : on veut le savoir maintenant, pas une image
+ * cassee en prod.
+ */
+export const resolve = (src: string): ImageMetadata => {
+  const hit = files[ROOT + clean(src)];
+  if (!hit) {
+    throw new Error(
+      `Media introuvable : src/assets/media/${src}\n` +
+        `Fichiers disponibles : ${Object.keys(files).join(', ') || '(aucun)'}`,
+    );
+  }
+  return hit.default;
+};
+
+/**
+ * URL haute-resolution d'une image (plafonnee a la taille native), servie au
+ * lightbox au clic. Un seul reglage, partout.
+ */
+export const imageFull = async (img: ImageMetadata): Promise<string> =>
+  (await getImage({ src: img, width: Math.min(1600, img.width), format: 'webp', quality: 82 })).src;
 
 /*
  * Un `dir` qui pointe dans le vide ne casse rien ici : la page sort sans

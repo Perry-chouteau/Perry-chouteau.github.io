@@ -74,8 +74,8 @@ export const ui = {
   downloadCv: { fr: 'Télécharger le CV', en: 'Download CV' },
   contactTitle: { fr: 'On en parle ?', en: 'Want to talk?' },
   contactBody: {
-    fr: "Le plus simple reste le mail. Je réponds vite, et je suis joignable sur Paris comme sur Lyon.",
-    en: 'Email is easiest. I reply fast, and I am reachable in Paris as well as Lyon.',
+    fr: 'Le plus simple reste le mail. Je réponds vite, et je suis mobile sur Paris comme sur Lyon.',
+    en: 'Email is easiest. I reply fast, and I work across both Paris and Lyon.',
   },
   metaDescription: {
     fr: 'Ingénieur logiciel — C++ système, Go et cloud native. Ex-Dassault Systèmes, ex-Xo7. Disponible à Paris et Lyon.',

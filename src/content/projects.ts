@@ -90,7 +90,7 @@ export const projects: Project[] = [
         stack: ['cpp'],
         links: [
           { label: 'Documentation', url: 'https://p-e-r-r-y.github.io/ecs/', type: 'doc' },
-          { label: 'Repository', url: 'https://github.com/p-e-r-r-y/ecs', type: 'repo' },
+          { label: 'P-E-R-R-Y/ecs', url: 'https://github.com/p-e-r-r-y/ecs', type: 'repo' },
 
         ],
       },
@@ -105,7 +105,7 @@ export const projects: Project[] = [
         stack: ['cpp1120', 'cmake'],
         links: [
           { label: 'Documentation', url: 'https://p-e-r-r-y.github.io/i18n/', type: 'doc' },
-          { label: 'Repository', url: 'https://github.com/p-e-r-r-y/i18n', type: 'repo' },
+          { label: 'P-E-R-R-Y/i18n', url: 'https://github.com/p-e-r-r-y/i18n', type: 'repo' },
         ],
       },
       {
@@ -117,7 +117,9 @@ export const projects: Project[] = [
         },
         dir: 'projects/p-e-r-r-y/procedurals',
         stack: ['cpp', 'cmake'],
-
+        links: [
+          { label: 'P-E-R-R-Y/procedurals', url: 'https://github.com/p-e-r-r-y/procedurals', type: 'repo' },
+        ],
       },
       {
         id: 'graphic',
@@ -202,8 +204,8 @@ export const projects: Project[] = [
           {
             heading: { fr: 'Une image de 56 Mo', en: 'A 56 MB image' },
             body: {
-              fr: 'Aucun runtime Node en production : le HTML est généré au build, nginx ne fait que servir des fichiers. Image non-root, déployée sur le cluster comme le reste.',
-              en: 'No Node runtime in production: the HTML is generated at build time, nginx only serves files. Non-root image, deployed on the cluster like everything else.',
+              fr: 'Mon Portfolio minimaliste.',
+              en: 'My minimalist portfolio.',
             },
           },
         ],
@@ -211,15 +213,17 @@ export const projects: Project[] = [
       {
         id: 'vocal30-com',
         title: 'vocal30.com',
-        summary: { fr: 'Le site vitrine. Vite / React.', en: 'The showcase site. Vite / React.' },
+        summary: { fr: 'Le site vitrine de vocal30.com.', en: 'The vocal30.com showcase site.' },
         dir: 'projects/vocal30/vocal30-com',
-        stack: ['vite', 'react', 'typescript'],
+        stack: ['vite', 'react', 'typescript', 'podman', 'github-actions'],
         links: [{ label: 'vocal30.com', url: 'https://vocal30.com', type: 'live' }],
       },
       {
         id: 'gonesboard',
         title: 'gonesboard.games',
-        summary: { fr: 'Application de jeu. Next.js / React.', en: 'Game app. Next.js / React.' },
+        summary: { 
+          fr: 'Une équipe passionnées par la culture. Un site vitrine de gonesboard.games pour mettre en avant leur jeu de société.', 
+          en: 'A passionate team focused on culture. A showcase site for gonesboard.games to highlight their board game.' },
         dir: 'projects/vocal30/gonesboard',
         stack: ['nextjs', 'react', 'typescript'],
         links: [{ label: 'gonesboard.games', url: 'https://gonesboard.games', type: 'live' }],
@@ -298,8 +302,8 @@ export const projects: Project[] = [
       {
         heading: { fr: 'Pourquoi le code est fermé', en: 'Why the code is closed' },
         body: {
-          fr: 'Antisèche est un produit destiné à être vendu. Le dépôt reste privé.',
-          en: 'Antisèche is a product meant to be sold. The repository stays private.',
+          fr: 'Antisèche est un dépôt privé. a but éducatif et commercial.',
+          en: 'Antisèche is a private repository. It is for educational and commercial purposes.',
         },
       },
     ],
@@ -331,7 +335,7 @@ export const projects: Project[] = [
         type: 'repo',
       },
       { label: 'admin-panel', url: 'https://github.com/EIP-GetOut/admin-panel', type: 'repo' },
-      { label: 'states', url: 'https://github.com/EIP-GetOut/states', type: 'repo' },
+      { label: 'getout-platform', url: 'https://github.com/EIP-GetOut/GETOUT-Platform', type: 'repo' },
     ],
     media: [
       { src: 'projects/getout/getout-screens.png', caption: { fr: 'L’application — films, livres, fiches détaillées', en: 'The app — films, books, detail pages' } },

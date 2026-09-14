@@ -86,7 +86,9 @@ export const domainOrder: Domain[] = ['sport', 'craft', 'build'];
  * Domaines affiches en grille fixe plutot qu'en carrousel : a deux cartes,
  * faire tourner un carrousel n'apporte rien et distrait.
  */
-export const staticDomains: Domain[] = ['build'];
+
+//to set to a grid instead of a carousel, add the domain to this list
+export const staticDomains: Domain[] = [];
 
 export const getCategory = (id: string) => lifeCategories.find((c) => c.id === id);
 
@@ -455,6 +457,19 @@ export const lifeCategories: LifeCategory[] = [
       { id: 'extraction-antivol', title: 'Extraction d’antivol', dir: 'mecanic/extraction-antivol' },
       { id: 'starter-swap', title: 'Remplacement du démarreur', dir: 'mecanic/starter-swap' },
     ],
+  },
+
+  {
+    id: 'phone_repair',
+    domain: 'build',
+    title: { fr: 'Réparation de téléphone', en: 'Phone Repair' },
+    tagline: { fr: 'Apprendre à réparer des téléphones.', en: 'Learning to fix phones.' },
+    lead: {
+      fr: 'Remise en état d\'un Samsung Galaxy A52 5G (SM-A528B).',
+      en: 'Restoring a Samsung Galaxy A52 5G (SM-A528B) to working order.',
+    },
+    dir: 'phone-repair',
+    items: [],
   },
 
   {
